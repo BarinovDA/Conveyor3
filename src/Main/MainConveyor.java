@@ -1,88 +1,63 @@
 package Main;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainConveyor {
-    static ArrayList<Integer> conveyorA = new ArrayList<Integer>();
-    static ArrayList<Integer> conveyorB = new ArrayList<Integer>();
-    //public static ConveyorA conveyorA = new ConveyorA();
+    private static Conveyor conveyorA = new Conveyor(9);
+    private static Conveyor conveyorB = new Conveyor(11);
 
     //      ---Config---
-        static int ArrayLengthA = 9;
-        static int ArrayLengthB = 11;
-        static int countCrossing = 2;
-        // index of crossin {1st conveyor, 2nd conveyor} ... - {common end};
-        static int[][] indexOfCrossing = {{3, 4},{6,8}};
+               private static int[][] indexOfCrossing = {{3, 4},{6, 8}};
     //    ---End config---
 
     public static void main(String[] args) {
+        generateList();
 
-        conveyorA.add(1);
-        conveyorA.add(2);
-        conveyorA.add(3);
-        conveyorA.add(4);
-        conveyorA.add(5);
-        conveyorA.add(6);
-        conveyorA.add(7);
-        conveyorA.add(8);
-        conveyorA.add(9);
-        conveyorA.add(10);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
-        conveyorA.add(11);
 
-        conveyorB.add(11);
-        conveyorB.add(21);
-        conveyorB.add(31);
-        conveyorB.add(41);
-        conveyorB.add(51);
-        conveyorB.add(61);
-        conveyorB.add(71);
-        conveyorB.add(81);
-        conveyorB.add(91);
-        conveyorB.add(101);
-        conveyorB.add(111);
-
-        System.out.println(conveyorA);
-        System.out.println("выпало - " + MainConveyor.pushA(15));
-        System.out.println("конвеер А - " + conveyorA);
-        System.out.println("конвеер Б - " + conveyorB);
 
     }
-    static int pushA (int a){
-        int convSize = conveyorA.size();
-        // cut to ArrayLengthA
-        for (int x = convSize-1; x >= ArrayLengthA; x-- ) {
-            conveyorA.remove(x);
+
+    public static int pushA (int a){
+        int numFoRetur = -1;
+        conveyorA.add(a);
+        //cut to normal size
+        while (conveyorA.arrayLength < conveyorA.size()){
+            numFoRetur = conveyorA.get(conveyorA.size()-1);
+            conveyorA.remove(conveyorA.size()-1);
         }
-        convSize = conveyorA.size();
-        int tmpNum;
-        int tmpSet;
-        int numForReturn;
-        // push through all element
-        for (int i = convSize-1; i > 1; i--){
-            tmpNum = conveyorA.get(i-1);
-            tmpSet = tmpNum;
-            tmpNum = conveyorA.get(i-1);
-            conveyorA.set(i-1,tmpSet);
+        //crossing
+        for (int i = 0; i < indexOfCrossing.length; i++ ){
+           conveyorB.add(indexOfCrossing[i][0]-1, conveyorA.get(indexOfCrossing[i][0]-1));
         }
-        conveyorA.add(0,a);
-        //assign cross
-        for(int j= 0; j < indexOfCrossing.length; j++){
-            int indxConvA = indexOfCrossing[j][0]-1;
-            int indxConvB =  indexOfCrossing[j][1]-1;
-            conveyorB.set(indxConvB, conveyorA.get(indxConvA));
+        //last crossin
+        conveyorB.add(conveyorB.size(), conveyorA.get(conveyorA.size()-1));
+        return numFoRetur;
+    }
+
+    public static int pushB (int b){
+        int numFoRetur = -1;
+        conveyorB.add(b);
+        //cut to normal size
+        while (conveyorB.arrayLength < conveyorB.size()){
+            numFoRetur = conveyorB.get(conveyorB.size()-1);
+            conveyorB.remove(conveyorB.size()-1);
         }
-        numForReturn = conveyorA.get(convSize);
-        if (conveyorA.size() >= ArrayLengthA) conveyorA.remove(convSize);
-        conveyorB.set(conveyorB.size()-1, conveyorA.get(conveyorA.size()-1));
-        return numForReturn;
+        //crossing
+        for (int i = 0; i < indexOfCrossing.length; i++ ){
+            conveyorA.add(indexOfCrossing[i][1]-1, conveyorB.get(indexOfCrossing[i][1]-1));
+        }
+        //last crossin
+        conveyorA.add(conveyorA.size(), conveyorB.get(conveyorB.size()-1));
+        return numFoRetur;
+    }
+
+    public static void getStatus () {
+        System.out.println("Состояние конвеера А: " + conveyorA);
+        System.out.println("Состояние конвеера B: " + conveyorB);
+        System.out.println("Точки пересечений" + indexOfCrossing);
+    }
+
+    private static void generateList(){
+       conveyorA.addAll(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13));
+       conveyorB.addAll(Arrays.asList(11,22,33,44,55,66,77,88,99,101,111,121,131));
     }
 }
