@@ -83,12 +83,12 @@ public class MainConveyor {
             }
             if (count <= 2) collection.add(randomNum);
         }
-        if (len < conveyor.arrayLength){
-            for (int i = len; len <  conveyor.arrayLength; i ++){
+        if (len < conveyor.arrayLength) {
+            for (int i = len; len < conveyor.arrayLength; i++) {
                 conveyor.add(0);
             }
-        }else if (len > conveyor.arrayLength){
-            for (int i = len; len <  conveyor.arrayLength; i ++){
+        } else if (len > conveyor.arrayLength) {
+            for (int i = len; len < conveyor.arrayLength; i++) {
                 conveyor.remove(i);
             }
         }
