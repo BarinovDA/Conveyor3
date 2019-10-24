@@ -69,11 +69,11 @@ public class MainConveyor {
     }
 
     private static void generateList() {
-        conveyorA.addAll(generatePrimeNumber(conveyorA.arrayLength));
-        conveyorB.addAll(generatePrimeNumber(conveyorB.arrayLength));
+        conveyorA.addAll(generatePrimeNumber(conveyorA.arrayLength, conveyorA));
+        conveyorB.addAll(generatePrimeNumber(conveyorB.arrayLength, conveyorB));
     }
 
-    private static List<Integer> generatePrimeNumber(int len) {
+    private static List<Integer> generatePrimeNumber(int len, Conveyor conveyor) {
         List<Integer> collection = new LinkedList<>();
         int count = 0;
         for (int i = 0; i < len; i++) {
@@ -82,6 +82,15 @@ public class MainConveyor {
                 if (randomNum % j == 0) count++;
             }
             if (count <= 2) collection.add(randomNum);
+        }
+        if (len < conveyor.arrayLength){
+            for (int i = len; len <  conveyor.arrayLength; i ++){
+                conveyor.add(0);
+            }
+        }else if (len > conveyor.arrayLength){
+            for (int i = len; len <  conveyor.arrayLength; i ++){
+                conveyor.remove(i);
+            }
         }
         return collection;
     }
