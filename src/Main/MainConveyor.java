@@ -1,12 +1,17 @@
 package Main;
+
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.lang.Math.*;
 
 public class MainConveyor {
     private static Conveyor conveyorA = new Conveyor(9);
     private static Conveyor conveyorB = new Conveyor(11);
 
     //      ---Config---
-               private static int[][] indexOfCrossing = {{3, 4},{6, 8}};
+    private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
     //    ---End config---
 
     public static void main(String[] args) {
@@ -19,69 +24,80 @@ public class MainConveyor {
         getStatus();
     }
 
-    public static int pushA (int a){
-        int numFoRetur = -1;
-        conveyorA.add(a);
-        //cut to normal size
-        while (conveyorA.arrayLength < conveyorA.size()){
-            numFoRetur = conveyorA.get(conveyorA.size()-1);
-            conveyorA.remove(conveyorA.size()-1);
-        }
-        //crossing
-        for (int i = 0; i < indexOfCrossing.length; i++ ){
-           conveyorB.add(indexOfCrossing[i][1]-1, conveyorA.get(indexOfCrossing[i][0]-1));
-        }
-        //last crossin
-        conveyorB.remove(conveyorB.size()-1);
-        conveyorB.add(conveyorB.size(), conveyorA.get(conveyorA.arrayLength-1));
-        return numFoRetur;
+    public static int pushA(int a) {
+        return pushConveyor(a, conveyorA);
     }
 
-    public static int pushB (int b){
-        int numFoRetur = -1;
-        conveyorB.add(b);
-        //cut to normal size
-        while (conveyorB.arrayLength < conveyorB.size()){
-            numFoRetur = conveyorB.get(conveyorB.size()-1);
-            conveyorB.remove(conveyorB.size()-1);
-        }
-        //crossing
-        for (int i = 0; i < indexOfCrossing.length; i++ ){
-            conveyorA.add(indexOfCrossing[i][0]-1, conveyorB.get(indexOfCrossing[i][1]-1));
-        }
-        //last crossin
-        conveyorA.remove(conveyorA.size()-1);
-        conveyorA.add(conveyorA.size(), conveyorB.get(conveyorB.arrayLength-1));
-        return numFoRetur;
+    public static int pushB(int b) {
+        return pushConveyor(b, conveyorA);
     }
 
-    public static void getStatus () {
+    private static int pushConveyor(int a, Conveyor conveyor) {
+        Conveyor convB;
+        Conveyor convA;
+        if (conveyor == conveyorA) {
+            convA = conveyor;
+            convB = conveyorB;
+        } else {
+            convA = conveyorB;
+            convB = conveyorA;
+        }
+        int numForReturn = -1;
+        convA.add(a);
+        //cut to normal size
+        while (convA.arrayLength < convA.size()) {
+            numForReturn = convA.get(convA.size() - 1);
+            convA.remove(convA.size() - 1);
+        }
+        //crossing
+        for (int i = 0; i < indexOfCrossing.length; i++) {
+            convB.add(indexOfCrossing[i][1] - 1, convA.get(indexOfCrossing[i][0] - 1));
+        }
+        //last crossin
+        convB.remove(convB.size() - 1);
+        convB.add(convB.size(), convA.get(convA.arrayLength - 1));
+        return numForReturn; //все буковки?)
+
+    }
+
+    public static void getStatus() {
         System.out.println("Состояние конвеера А: " + conveyorA);
         System.out.println("Состояние конвеера B: " + conveyorB);
-        for (int[] arr : indexOfCrossing){
+        for (int[] arr : indexOfCrossing) {
             System.out.println("Точки пересечений - " + Arrays.toString(arr));
         }
     }
 
-    private static void generateList(){
-       conveyorA.addAll(Arrays.asList(9,2,3,4,5,6,7,8,9));
-       if (conveyorA.arrList.size() < conveyorA.arrayLength){
-           for (int i = conveyorA.arrList.size(); i < conveyorA.arrayLength ;i++){
-               conveyorA.add(i, 0);
-           }
-       }
-        while (conveyorA.arrayLength < conveyorA.size()){
-            conveyorA.remove(conveyorA.size()-1);
-        }
-       conveyorB.addAll(Arrays.asList(11,22,33,44,55,66,77,88,99,101,111,121,131));
-        if (conveyorB.arrList.size() < conveyorB.arrayLength){
-            for (int i = conveyorB.arrList.size(); i < conveyorB.arrayLength ;i++){
-                conveyorA.add(i, 0);
-            }
-        }
-        while (conveyorB.arrayLength < conveyorB.size()){
-            conveyorB.remove(conveyorB.size()-1);
-        }
+    private static void generateList() {
+        conveyorA.addAll(generatePrimeNumber(conveyorA.arrayLength));
+        conveyorB.addAll(generatePrimeNumber(conveyorB.arrayLength));
+    }
 
+    private static List<Integer> generatePrimeNumber(int len) {
+        List<Integer> collection = new LinkedList<>();
+        int count = 0;
+        for (int i = 0; i < len; i++) {
+            int randomNum = (int) Math.random() * 1000;
+            for (int j = 1; j <= randomNum; j++) {
+                if (randomNum % j == 0) count++;
+            }
+            if (count <= 2) collection.add(randomNum);
+        }
+        return collection;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
