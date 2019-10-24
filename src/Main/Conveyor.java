@@ -8,33 +8,43 @@ import java.util.List;
 public class Conveyor {
     public int arrayLength;
     public LinkedList<Integer> arrList = new LinkedList<>();
+
     public Conveyor(int length) {
         arrayLength = length;
     }
-    public void add(int index){
+
+    public void add(int index) {
         arrList.addFirst(index);
     }
-    public  void add(int index, int elem){
+
+    public void add(int index, int elem) {
         arrList.add(index, elem);
     }
-    public void addAll(Collection collection){
+
+    public void addAll(Collection collection) {
         arrList.addAll(collection);
     }
-    public void addAll (List<Integer> list){
+
+    public void addAll(List<Integer> list) {
         arrList.addAll(list);
     }
-    public  int size(){
+
+    public int size() {
         return arrList.size();
     }
-    public  void remove(int index){
+
+    public void remove(int index) {
         arrList.remove(index);
     }
-    public  int get (int index){
+
+    public int get(int index) {
         return arrList.get(index);
     }
+
     public void set(int index, int elem) {
         arrList.set(index, elem);
     }
+
     @Override
     public String toString() {
         return String.valueOf(arrList);
