@@ -67,7 +67,7 @@ public class MainConveyor {
             System.out.println("Точки пересечений - " + Arrays.toString(arr));
         }
     }
-
+        //generator
     private static void generateList() {
         conveyorA.addAll(generatePrimeNumber(conveyorA.arrayLength, conveyorA));
         conveyorB.addAll(generatePrimeNumber(conveyorB.arrayLength, conveyorB));
