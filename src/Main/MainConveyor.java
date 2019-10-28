@@ -15,8 +15,6 @@ public class MainConveyor {
     //    ---End config---
 
     public static void main(String[] args) {
-        generateList();
-
         getStatus();
         pushA(1);
         getStatus();
@@ -25,39 +23,29 @@ public class MainConveyor {
     }
 
     public static int pushA(int a) {
-        return pushConveyor(a, conveyorA);
+        return pushConveyor(a, conveyorA, conveyorB);
     }
 
     public static int pushB(int b) {
-        return pushConveyor(b, conveyorA);
+        return pushConveyor(b, conveyorB, conveyorA);
     }
 
-    private static int pushConveyor(int a, Conveyor conveyor) {
-        Conveyor convB;
-        Conveyor convA;
-        if (conveyor == conveyorA) {
-            convA = conveyor;
-            convB = conveyorB;
-        } else {
-            convA = conveyorB;
-            convB = conveyorA;
-        }
-        int numForReturn = -1;
-        convA.add(a);
+    private static int pushConveyor(int a, Conveyor conveyorToPush, Conveyor conveyorToUp) {
+        int numForReturn = 0;
+        conveyorToPush.add(a);
         //cut to normal size
-        while (convA.arrayLength < convA.size()) {
-            numForReturn = convA.get(convA.size() - 1);
-            convA.remove(convA.size() - 1);
+        while (conveyorToPush.arrayLength < conveyorToPush.size()) {
+            numForReturn = conveyorToPush.get(conveyorToPush.size() - 1);
+            conveyorToPush.remove(conveyorToPush.size() - 1);
         }
         //crossing
         for (int i = 0; i < indexOfCrossing.length; i++) {
-            convB.add(indexOfCrossing[i][1] - 1, convA.get(indexOfCrossing[i][0] - 1));
+            conveyorToUp.add(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
         }
         //last crossin
-        convB.remove(convB.size() - 1);
-        convB.add(convB.size(), convA.get(convA.arrayLength - 1));
+        conveyorToUp.remove(conveyorToUp.size() - 1);
+        conveyorToUp.add(conveyorToUp.size(), conveyorToPush.get(conveyorToPush.arrayLength - 1));
         return numForReturn; //все буковки?)
-
     }
 
     public static void getStatus() {
@@ -67,33 +55,35 @@ public class MainConveyor {
             System.out.println("Точки пересечений - " + Arrays.toString(arr));
         }
     }
-        //generator
-    private static void generateList() {
-        conveyorA.addAll(generatePrimeNumber(conveyorA.arrayLength, conveyorA));
-        conveyorB.addAll(generatePrimeNumber(conveyorB.arrayLength, conveyorB));
+
+    private static int generatePrimeNumber() {
+        int randomNum = 0;
+        for (int i = 0; i < 1000; i++) {
+            randomNum = (int) Math.random() * 1000;
+            if (isPrime(randomNum)) return randomNum;
+        }
+        return randomNum;
     }
 
-    private static List<Integer> generatePrimeNumber(int len, Conveyor conveyor) {
-        List<Integer> collection = new LinkedList<>();
-        int count = 0;
-        for (int i = 0; i < len; i++) {
-            int randomNum = (int) Math.random() * 1000;
-            for (int j = 1; j <= randomNum; j++) {
-                if (randomNum % j == 0) count++;
-            }
-            if (count <= 2) collection.add(randomNum);
+    private static boolean isPrime (int number){
+        int count =0;
+        for (int i = 2; i <= number; i++){
+            if (number%i == 0) count++;
+            if (count > 1) return false
         }
-        if (len < conveyor.arrayLength) {
-            for (int i = len; len < conveyor.arrayLength; i++) {
-                conveyor.add(0);
-            }
-        } else if (len > conveyor.arrayLength) {
-            for (int i = len; len < conveyor.arrayLength; i++) {
-                conveyor.remove(i);
-            }
-        }
-        return collection;
+        return true;
     }
+    /*
+    возвращать 0 если ничего не упало
+    генератор без аргументов
+    генератор не добавляет ничего сам в массив
+    логика проверки числа на простоту
+    метод пуш с двумя агрументами (ленка куда добавить и лента пересчения)
+    -1 что за число
+    заполнять через пуш в цикле
+    тест на junit
+    метод получения всех чисел (из условия)
+     */
 }
 
 
