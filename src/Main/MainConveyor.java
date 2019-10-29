@@ -1,29 +1,29 @@
 package Main;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.*;
 
 public class MainConveyor {
-    private static Conveyor conveyorA = new Conveyor(9);
-    private static Conveyor conveyorB = new Conveyor(11);
+    public static Conveyor conveyorA = new Conveyor(9);
+    public static Conveyor conveyorB = new Conveyor(11);
 
     //      ---Config---
     private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
     //    ---End config---
 
-    public static void main(String[] args) {
+    public static void main() {
         conveyorA.addAll(pushZero(conveyorA));
         conveyorB.addAll(pushZero(conveyorB));
-        getStatus();
+        System.out.println(getStatus(conveyorA));
+        System.out.println(getStatus(conveyorB));
 
         for (int i = 0; i < 10; i++) System.out.println(pushA(generatePrimeNumber()));
         for (int i = 0; i < 20; i++) System.out.println(pushB(generatePrimeNumber()));
 
-        getStatus();
+        System.out.println(getStatus(conveyorB));
+        System.out.println(getStatus(conveyorA));
+
     }
 
     public static int pushA(int a) {
@@ -48,7 +48,7 @@ public class MainConveyor {
                 conveyorToUp.remove(indexOfCrossing[i][1] - 1);
                 conveyorToUp.add(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
             }
-        }else{
+        } else {
             for (int i = 0; i < indexOfCrossing.length; i++) {
                 conveyorToUp.remove(indexOfCrossing[i][0] - 1);
                 conveyorToUp.add(indexOfCrossing[i][0] - 1, conveyorToPush.get(indexOfCrossing[i][1] - 1));
@@ -60,18 +60,10 @@ public class MainConveyor {
         return numForReturn; //все буковки?)
     }
 
-    public static void getStatus() {
-        System.out.println("Состояние конвеера А: " + conveyorA);
-        System.out.println("Состояние конвеера B: " + conveyorB);
-        for (int[] arr : indexOfCrossing) {
-            System.out.println("Точки пересечений - " + Arrays.toString(arr));
-        }
-    }
-
     private static int generatePrimeNumber() {
         int randomNum = 0;
         for (int i = 0; i < 1000; i++) {
-            randomNum =(int) (Math.random() * 1000);
+            randomNum = (int) (Math.random() * 1000);
             if (isPrime(randomNum)) return randomNum;
         }
         return randomNum;
@@ -92,6 +84,10 @@ public class MainConveyor {
             list.add(0);
         }
         return list;
+    }
+
+    public static Collection getStatus(Conveyor conveyor) {
+        return conveyor.arrList;
     }
     /*
     тест на junit
