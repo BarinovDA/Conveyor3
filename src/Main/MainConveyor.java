@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,10 +16,13 @@ public class MainConveyor {
     //    ---End config---
 
     public static void main(String[] args) {
+        conveyorA.addAll(pushZero(conveyorA));
+        conveyorB.addAll(pushZero(conveyorB));
         getStatus();
-        pushA(1);
-        getStatus();
-        pushB(55);
+
+        for (int i = 0; i < 10; i++) System.out.println(pushA(generatePrimeNumber()));
+        for (int i = 0; i < 20; i++) System.out.println(pushB(generatePrimeNumber()));
+
         getStatus();
     }
 
@@ -39,8 +43,16 @@ public class MainConveyor {
             conveyorToPush.remove(conveyorToPush.size() - 1);
         }
         //crossing
-        for (int i = 0; i < indexOfCrossing.length; i++) {
-            conveyorToUp.add(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
+        if (conveyorToPush == conveyorA) {
+            for (int i = 0; i < indexOfCrossing.length; i++) {
+                conveyorToUp.remove(indexOfCrossing[i][1] - 1);
+                conveyorToUp.add(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
+            }
+        }else{
+            for (int i = 0; i < indexOfCrossing.length; i++) {
+                conveyorToUp.remove(indexOfCrossing[i][0] - 1);
+                conveyorToUp.add(indexOfCrossing[i][0] - 1, conveyorToPush.get(indexOfCrossing[i][1] - 1));
+            }
         }
         //last crossin
         conveyorToUp.remove(conveyorToUp.size() - 1);
@@ -59,30 +71,30 @@ public class MainConveyor {
     private static int generatePrimeNumber() {
         int randomNum = 0;
         for (int i = 0; i < 1000; i++) {
-            randomNum = (int) Math.random() * 1000;
+            randomNum =(int) (Math.random() * 1000);
             if (isPrime(randomNum)) return randomNum;
         }
         return randomNum;
     }
 
-    private static boolean isPrime (int number){
-        int count =0;
-        for (int i = 2; i <= number; i++){
-            if (number%i == 0) count++;
-            if (count > 1) return false
+    private static boolean isPrime(int number) {
+        int count = 0;
+        for (int i = 2; i <= number; i++) {
+            if (number % i == 0) count++;
+            if (count > 1) return false;
         }
         return true;
     }
+
+    private static Collection pushZero(Conveyor conveyor) {
+        List<Integer> list = new LinkedList();
+        while (list.size() < conveyor.arrayLength) {
+            list.add(0);
+        }
+        return list;
+    }
     /*
-    возвращать 0 если ничего не упало
-    генератор без аргументов
-    генератор не добавляет ничего сам в массив
-    логика проверки числа на простоту
-    метод пуш с двумя агрументами (ленка куда добавить и лента пересчения)
-    -1 что за число
-    заполнять через пуш в цикле
     тест на junit
-    метод получения всех чисел (из условия)
      */
 }
 
