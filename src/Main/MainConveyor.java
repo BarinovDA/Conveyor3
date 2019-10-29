@@ -2,17 +2,15 @@ package Main;
 
 import java.util.*;
 
-import static java.lang.Math.*;
-
-public class MainConveyor {
-    public static Conveyor conveyorA = new Conveyor(9);
-    public static Conveyor conveyorB = new Conveyor(11);
+class MainConveyor {
+    private static Conveyor conveyorA = new Conveyor(9);
+    private static Conveyor conveyorB = new Conveyor(11);
 
     //      ---Config---
     private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
     //    ---End config---
 
-    public static void main() {
+    public void main() {
         conveyorA.addAll(pushZero(conveyorA));
         conveyorB.addAll(pushZero(conveyorB));
         System.out.println(getStatus(conveyorA));
@@ -32,6 +30,10 @@ public class MainConveyor {
 
     public static int pushB(int b) {
         return pushConveyor(b, conveyorB, conveyorA);
+    }
+
+    static Collection getStatus(Conveyor conveyor) {
+        return conveyor.arrList;
     }
 
     private static int pushConveyor(int a, Conveyor conveyorToPush, Conveyor conveyorToUp) {
@@ -84,10 +86,6 @@ public class MainConveyor {
             list.add(0);
         }
         return list;
-    }
-
-    public static Collection getStatus(Conveyor conveyor) {
-        return conveyor.arrList;
     }
     /*
     тест на junit
