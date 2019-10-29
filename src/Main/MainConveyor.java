@@ -3,8 +3,8 @@ package Main;
 import java.util.*;
 
 class MainConveyor {
-    private static Conveyor conveyorA = new Conveyor(9);
-    private static Conveyor conveyorB = new Conveyor(11);
+    public static Conveyor conveyorA = new Conveyor(9);
+    public static Conveyor conveyorB = new Conveyor(11);
 
     //      ---Config---
     private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
@@ -19,8 +19,8 @@ class MainConveyor {
         for (int i = 0; i < 10; i++) System.out.println(pushA(generatePrimeNumber()));
         for (int i = 0; i < 20; i++) System.out.println(pushB(generatePrimeNumber()));
 
-        System.out.println(getStatus(conveyorB));
         System.out.println(getStatus(conveyorA));
+        System.out.println(getStatus(conveyorB));
 
     }
 
@@ -32,7 +32,7 @@ class MainConveyor {
         return pushConveyor(b, conveyorB, conveyorA);
     }
 
-    static Collection getStatus(Conveyor conveyor) {
+    public static Collection getStatus(Conveyor conveyor) {
         return conveyor.arrList;
     }
 
