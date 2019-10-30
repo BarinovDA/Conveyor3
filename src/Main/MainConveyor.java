@@ -87,9 +87,7 @@ class MainConveyor {
         }
         return list;
     }
-    /*
-    тест на junit
-     */
+    //тест на junit
 }
 
 
