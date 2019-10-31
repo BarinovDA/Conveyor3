@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Conveyor {
+class Conveyor {
     public int arrayLength;
     public LinkedList<Integer> arrList = new LinkedList<>();
 

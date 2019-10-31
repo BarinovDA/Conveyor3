@@ -5,23 +5,31 @@ import java.util.*;
 class MainConveyor {
     public static Conveyor conveyorA = new Conveyor(9);
     public static Conveyor conveyorB = new Conveyor(11);
-
+    static List<Integer> primeNum = new ArrayList<>();
     //      ---Config---
     private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
     //    ---End config---
 
-    public void main() {
-        conveyorA.addAll(pushZero(conveyorA));
-        conveyorB.addAll(pushZero(conveyorB));
-        System.out.println(getStatus(conveyorA));
-        System.out.println(getStatus(conveyorB));
+    public static void main() {
+        generatePrimeNumber();
 
-        for (int i = 0; i < 10; i++) System.out.println(pushA(generatePrimeNumber()));
-        for (int i = 0; i < 20; i++) System.out.println(pushB(generatePrimeNumber()));
+        fillConveyor(conveyorA);
+        fillConveyor(conveyorB);
 
         System.out.println(getStatus(conveyorA));
         System.out.println(getStatus(conveyorB));
+        System.out.println("================================================");
+        pushB(1);
+        System.out.println(getStatus(conveyorA));
+        System.out.println(getStatus(conveyorB));
 
+    }
+
+    private static void fillConveyor(Conveyor conveyor) {
+        for (int i = 0; i < conveyor.arrayLength; i++) {
+            int x = (int) (Math.random() * 100);
+            conveyor.arrList.add(primeNum.get(x));
+        }
     }
 
     public static int pushA(int a) {
@@ -32,62 +40,50 @@ class MainConveyor {
         return pushConveyor(b, conveyorB, conveyorA);
     }
 
-    public static Collection getStatus(Conveyor conveyor) {
+    public static LinkedList<Integer> getStatus(Conveyor conveyor) {
         return conveyor.arrList;
     }
 
-    private static int pushConveyor(int a, Conveyor conveyorToPush, Conveyor conveyorToUp) {
+    private static int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUp) {
         int numForReturn = 0;
-        conveyorToPush.add(a);
-        //cut to normal size
-        while (conveyorToPush.arrayLength < conveyorToPush.size()) {
-            numForReturn = conveyorToPush.get(conveyorToPush.size() - 1);
-            conveyorToPush.remove(conveyorToPush.size() - 1);
-        }
+        conveyorToPush.add(num);
         //crossing
         if (conveyorToPush == conveyorA) {
             for (int i = 0; i < indexOfCrossing.length; i++) {
-                conveyorToUp.remove(indexOfCrossing[i][1] - 1);
-                conveyorToUp.add(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
+                conveyorToUp.set(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
             }
         } else {
             for (int i = 0; i < indexOfCrossing.length; i++) {
-                conveyorToUp.remove(indexOfCrossing[i][0] - 1);
-                conveyorToUp.add(indexOfCrossing[i][0] - 1, conveyorToPush.get(indexOfCrossing[i][1] - 1));
+                conveyorToUp.set(indexOfCrossing[i][0] - 1, conveyorToPush.get(indexOfCrossing[i][1] - 1));
             }
         }
         //last crossin
-        conveyorToUp.remove(conveyorToUp.size() - 1);
-        conveyorToUp.add(conveyorToUp.size(), conveyorToPush.get(conveyorToPush.arrayLength - 1));
-        return numForReturn; //все буковки?)
+        conveyorToPush.remove(conveyorToPush.arrayLength);
+        conveyorToUp.set(conveyorToUp.arrayLength - 1, conveyorToPush.get(conveyorToPush.arrayLength - 1));
+        return numForReturn;
     }
 
-    private static int generatePrimeNumber() {
-        int randomNum = 0;
-        for (int i = 0; i < 1000; i++) {
-            randomNum = (int) (Math.random() * 1000);
-            if (isPrime(randomNum)) return randomNum;
+    private static void generatePrimeNumber() {
+        // до 600 потому, что так исторически сложилось (опытным путем подобранно, для создания Листа на ~ 100 эл-ов)
+        for (int i = 3; i <= 600; i += 2) {
+            if (isPrime(i)) primeNum.add(i);
         }
-        return randomNum;
     }
 
     private static boolean isPrime(int number) {
-        int count = 0;
-        for (int i = 2; i <= number; i++) {
-            if (number % i == 0) count++;
-            if (count > 1) return false;
+        for (int i = 2; i <= number / 2; i++) {
+            if (number % i == 0) return false;
         }
         return true;
     }
 
-    private static Collection pushZero(Conveyor conveyor) {
-        List<Integer> list = new LinkedList();
-        while (list.size() < conveyor.arrayLength) {
-            list.add(0);
-        }
-        return list;
-    }
-    //тест на junit
+    /*
+    *
+    *сделай класс FactoryConfig в котором будут точки пересечения
+        и из теста напрямую запускай его
+        startFactory(FactoryConfig config)
+        и там можно определять любые точки
+    * */
 }
 
 
