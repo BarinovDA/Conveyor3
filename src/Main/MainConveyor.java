@@ -40,8 +40,8 @@ class MainConveyor {
         return pushConveyor(b, conveyorB, conveyorA);
     }
 
-    public static LinkedList<Integer> getStatus(Conveyor conveyor) {
-        return conveyor.arrList;
+    public static String getStatus(Conveyor conveyor) {
+        return conveyor.arrList.toString();
     }
 
     private static int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUp) {
@@ -78,7 +78,7 @@ class MainConveyor {
     }
 
     /*
-    *
+    *конфиг и тесты сделать
     *сделай класс FactoryConfig в котором будут точки пересечения
         и из теста напрямую запускай его
         startFactory(FactoryConfig config)
