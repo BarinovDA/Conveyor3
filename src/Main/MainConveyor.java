@@ -40,8 +40,9 @@ class MainConveyor {
         return pushConveyor(b, conveyorB, conveyorA);
     }
 
-    public static String getStatus(Conveyor conveyor) {
-        return conveyor.arrList.toString();
+    public static List<Integer> getStatus(Conveyor conveyor) {
+        List<Integer> conv = Collections.unmodifiableList(conveyor.arrList);
+        return conv;
     }
 
     private static int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUp) {
