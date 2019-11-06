@@ -3,26 +3,14 @@ package Main;
 import java.util.*;
 
 class MainConveyor {
-    public static Conveyor conveyorA = new Conveyor(9);
-    public static Conveyor conveyorB = new Conveyor(11);
-    static List<Integer> primeNum = new ArrayList<>();
-    //      ---Config---
-    private static int[][] indexOfCrossing = {{3, 4}, {6, 8}};
-    //    ---End config---
+    public static Conveyor conveyorA = new Conveyor(FactoryConfig.getConvAlength());
+    public static Conveyor conveyorB = new Conveyor(FactoryConfig.getConvBlength());
+    public static List<Integer> primeNum = new ArrayList<>();
 
     public static void main() {
         generatePrimeNumber();
-
         fillConveyor(conveyorA);
         fillConveyor(conveyorB);
-
-        System.out.println(getStatus(conveyorA));
-        System.out.println(getStatus(conveyorB));
-        System.out.println("================================================");
-        pushB(1);
-        System.out.println(getStatus(conveyorA));
-        System.out.println(getStatus(conveyorB));
-
     }
 
     private static void fillConveyor(Conveyor conveyor) {
@@ -41,21 +29,21 @@ class MainConveyor {
     }
 
     public static List<Integer> getStatus(Conveyor conveyor) {
-        List<Integer> conv = Collections.unmodifiableList(conveyor.arrList);
-        return conv;
+        return Collections.unmodifiableList(conveyor.arrList);
     }
 
     private static int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUp) {
-        int numForReturn = 0;
+        int numForReturn = conveyorToPush.get(conveyorToPush.size()-1);
         conveyorToPush.add(num);
         //crossing
+        int convLength = FactoryConfig.getCrossIndex().length;
         if (conveyorToPush == conveyorA) {
-            for (int i = 0; i < indexOfCrossing.length; i++) {
-                conveyorToUp.set(indexOfCrossing[i][1] - 1, conveyorToPush.get(indexOfCrossing[i][0] - 1));
+            for (int i = 0; i < convLength; i++) {
+                conveyorToUp.set(FactoryConfig.getCrossIndex()[i][1] - 1, conveyorToPush.get(FactoryConfig.getCrossIndex()[i][0] - 1));
             }
         } else {
-            for (int i = 0; i < indexOfCrossing.length; i++) {
-                conveyorToUp.set(indexOfCrossing[i][0] - 1, conveyorToPush.get(indexOfCrossing[i][1] - 1));
+            for (int i = 0; i < convLength; i++) {
+                conveyorToUp.set(FactoryConfig.getCrossIndex()[i][0] - 1, conveyorToPush.get(FactoryConfig.getCrossIndex()[i][1] - 1));
             }
         }
         //last crossin
@@ -78,13 +66,6 @@ class MainConveyor {
         return true;
     }
 
-    /*
-    *конфиг и тесты сделать
-    *сделай класс FactoryConfig в котором будут точки пересечения
-        и из теста напрямую запускай его
-        startFactory(FactoryConfig config)
-        и там можно определять любые точки
-    * */
 }
 
 
