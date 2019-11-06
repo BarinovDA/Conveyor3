@@ -1,11 +1,8 @@
-package Main;
+package ru.conveyor.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
-class Conveyor {
+public class Conveyor {
     public int arrayLength;
     public LinkedList<Integer> arrList = new LinkedList<>();
 

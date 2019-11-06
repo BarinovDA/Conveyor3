@@ -1,10 +1,11 @@
-package Main;
+package ru.conveyor.data;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CrossIndex {
+public class CrossingIndex {
+
     private static List<Integer> crossConvA = new LinkedList<Integer>();
     private static List<Integer> crossConvB = new LinkedList<Integer>();
 
@@ -17,10 +18,10 @@ public class CrossIndex {
     }
 
     public static void setCrossConvA(int element) {
-        CrossIndex.crossConvA.add(element);
+        CrossingIndex.crossConvA.add(element);
     }
 
     public static void setCrossConvB(int element) {
-        CrossIndex.crossConvB.add(element);
+        CrossingIndex.crossConvB.add(element);
     }
 }
