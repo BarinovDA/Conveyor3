@@ -13,7 +13,7 @@ public class ConveyorTest {
     @Test
     public void factoryManagerTest() {
         // Prepare factory manager
-        int[][] crossingPoints = {{3, 4}, {6, 8}};
+        int[][] crossingPoints = {{3, 4}, {6, 8}}; //todo: избавиться от двумерного массива
         FactoryConfig factoryConfig = new FactoryConfig(crossingPoints, 9, 15);
 
         FactoryManager factoryManager = new FactoryManager(factoryConfig);
@@ -57,11 +57,14 @@ public class ConveyorTest {
 
         // InterSection verify
         valueToBeReturned = statusConveyorA.get(statusConveyorA.size() - 1);
+        //todo: returnedValue - переменная в которую пишется результат после push, а не то что ты тут написал
+        //todo: заведи отдельную для чисел из конвеера B
         returnedValue = statusConveyorB.get(statusConveyorB.size() - 1);
 
         Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
 
         // InterSection verify in middle
+        //todo: переделать после изменений
         for (int i = 0; i < factoryConfig.getlengthOfCrossing(); i++) {
 
             int intersectionIndexA = factoryConfig.getIntersectionA(i) - 1;
@@ -73,4 +76,11 @@ public class ConveyorTest {
             Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
         }
     }
+
+    //todo: добавить ещё один тест (негативный) в этом классе на попытку pushA отрицательное число/не простое число/null
+    //todo: на передачу в конфиг отрицательной длины конвееров
+    //todo: на передачу индексов пересечения больше длины конвееров
+    //todo: и заассертить что ожидаемо выбрасывается нужный эксепшн
+
+    //todo: добавить ещё один тестовый класс PrimeNumberUtilsTest и проверить его (этого класса) методы
 }

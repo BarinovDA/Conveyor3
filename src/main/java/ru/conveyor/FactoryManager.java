@@ -28,9 +28,10 @@ public final class FactoryManager {
         fillConveyor(conveyorB);
     }
 
+    //todo: не отформатирован код. Нужно crlt+alt+L перед каждым пушем по всем файлам!!!
     private void fillConveyor(Conveyor conveyor) {
         for (int i = 0; i < conveyor.length; i++) {
-            int x = (int) (Math.random() * 100);
+            int x = (int) (Math.random() * 100); //todo: что такое 100? нужен коммент
             conveyor.list.add(primeNumbers.get(x));
         }
     }
@@ -47,6 +48,7 @@ public final class FactoryManager {
         return pushConveyor(value, conveyorB, conveyorA);
     }
 
+    //todo: метод похоже больше нигде не используется
     public List<Integer> getStatus(Conveyor conveyor) {
         return Collections.unmodifiableList(conveyor.list);
     }

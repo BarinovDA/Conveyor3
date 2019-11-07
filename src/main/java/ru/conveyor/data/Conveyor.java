@@ -2,6 +2,10 @@ package ru.conveyor.data;
 
 import java.util.LinkedList;
 
+//todo: тут надо подумать как всё это спрятать (перенести conveyor на package-default уровень),
+// public доступ не подходит.
+// конвеер это внутренняя кухня для FactoryManager доступа извне быть не должно
+
 public class Conveyor {
     public int length;
     public LinkedList<Integer> list = new LinkedList<>();
@@ -18,6 +22,7 @@ public class Conveyor {
         return list.size();
     }
 
+    // todo: у LinkedList есть метод removeLast(), надо его заюзать вместо удаления по индексу
     public void remove(int index) {
         list.remove(index);
     }
