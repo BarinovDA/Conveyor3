@@ -7,15 +7,8 @@ public class FactoryConfig {
     private static int convAlength;
     private static int convBlength;
 
-    public static int[][] getCrossIndex() {
-        return crossIndex;
-    }
-
-    public static int getlengthOfCross() {
-        return crossIndex.length;
-    }
-
     public FactoryConfig(int[][] arr, int lenA, int lenB) throws IllegalArgumentException {
+        //int[][] cross = {{3,4},{6,8}};
         if (validateParameters(arr, lenA, lenB)) {
             convAlength = lenA;
             convBlength = lenB;
@@ -26,6 +19,14 @@ public class FactoryConfig {
             }
         }
         else throw new IllegalArgumentException();
+    }
+
+    public static int[][] getCrossIndex() {
+        return crossIndex;
+    }
+
+    public static int getlengthOfCross() {
+        return crossIndex.length;
     }
 
     private boolean validateParameters(int[][] arr, int lenA, int lenB) {

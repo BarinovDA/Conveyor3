@@ -17,17 +17,17 @@ class Conveyor {
         arrList.addFirst(index);
     }
 
-    public void add(int index, int elem) {
+    /*
+    * public void add(int index, int elem) {
         arrList.add(index, elem);
     }
-
     public void addAll(Collection collection) {
         arrList.addAll(collection);
     }
-
     public void addAll(List<Integer> list) {
         arrList.addAll(list);
     }
+    * */
 
     public int size() {
         return arrList.size();
