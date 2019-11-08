@@ -83,31 +83,56 @@ public class ConveyorTest {
         int notPrimeNumber = 2;
         Assert.assertThat(notPrimeNumber, CoreMatchers.is(IllegalArgumentException));
 
-        // Push negative number
-        int negativNumber = -3;
-        Assert.assertThat(negativNumber, CoreMatchers.is(IllegalArgumentException));
 
         // Push null
         Assert.assertThat(null, CoreMatchers.is(IllegalArgumentException));
-
-        // Negative length of conveyor
-        Assert.assertThat(new FactoryConfig(crossingIndices,-5,15), CoreMatchers.is(IllegalArgumentException));
-
-        // Index of intersection is biggest
-        Assert.assertThat(new FactoryConfig(crossingIndices,3,4), CoreMatchers.is(IllegalArgumentException));
 */
-
 
     }
 
+    // Intersection pooin out of length conveyor
     @Test(expected = IllegalArgumentException.class)
-    public void negativeTet() throws IllegalArgumentException {
+    public void outOfLength() throws IllegalArgumentException {
         // Prepare factory manager
         List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
         crossingIndices.add(new CrossingIndex(3, 4));
         crossingIndices.add(new CrossingIndex(6, 8));
 
         new FactoryConfig(crossingIndices, 3, 2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pushNegative() throws IllegalArgumentException {
+        // Prepare factory manager
+        List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
+        crossingIndices.add(new CrossingIndex(3, 4));
+        crossingIndices.add(new CrossingIndex(6, 8));
+
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12);
+        FactoryManager factoryManager = new FactoryManager(factoryConfig);
+
+        // Start factory
+        factoryManager.startFactory();
+
+        factoryManager.pushA(-1);
+        factoryManager.pushB(-10);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pushNotPrimeNumber() throws IllegalArgumentException {
+        // Prepare factory manager
+        List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
+        crossingIndices.add(new CrossingIndex(3, 4));
+        crossingIndices.add(new CrossingIndex(6, 8));
+
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12);
+        FactoryManager factoryManager = new FactoryManager(factoryConfig);
+
+        // Start factory
+        factoryManager.startFactory();
+
+        factoryManager.pushA(2);
+        factoryManager.pushB(6);
     }
     //todo: добавить ещё один тест (негативный) в этом классе на попытку pushA отрицательное число/не простое число/null
     //todo: на передачу в конфиг отрицательной длины конвееров
