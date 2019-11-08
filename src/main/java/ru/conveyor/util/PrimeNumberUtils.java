@@ -8,7 +8,7 @@ public class PrimeNumberUtils {
     public static List<Integer> generatePrimeNumber() {
         List<Integer> list = new ArrayList<>();
         /**
-         * Method return List of prime number, length of list 108 elemets.
+         * Method return List of prime number, length of list 108 elements.
          * */
         // до 600 потому, опытным путем подобранно, для создания Листа на ~ 100 эл-ов
         for (int i = 3; i <= 600; i += 2) {
