@@ -36,12 +36,12 @@ public final class FactoryManager {
         }
     }
 
-    public int pushA(int value) {
+    public int pushA(int value) throws IllegalArgumentException {
         validateConveyorInput(value);
         return pushConveyor(value, conveyorA, conveyorB);
     }
 
-    public int pushB(int value) {
+    public int pushB(int value) throws IllegalArgumentException {
         validateConveyorInput(value);
         return pushConveyor(value, conveyorB, conveyorA);
     }
