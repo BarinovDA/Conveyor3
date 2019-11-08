@@ -28,29 +28,22 @@ public final class FactoryManager {
         fillConveyor(conveyorB);
     }
 
-    //todo: не отформатирован код. Нужно crlt+alt+L перед каждым пушем по всем файлам!!!
     private void fillConveyor(Conveyor conveyor) {
         for (int i = 0; i < conveyor.length; i++) {
-            int x = (int) (Math.random() * 100); //todo: что такое 100? нужен коммент
+            // случайное число от 1 до 100
+            int x = (int) (Math.random() * 100);
             conveyor.list.add(primeNumbers.get(x));
         }
     }
 
     public int pushA(int value) {
         validateConveyorInput(value);
-
         return pushConveyor(value, conveyorA, conveyorB);
     }
 
     public int pushB(int value) {
         validateConveyorInput(value);
-
         return pushConveyor(value, conveyorB, conveyorA);
-    }
-
-    //todo: метод похоже больше нигде не используется
-    public List<Integer> getStatus(Conveyor conveyor) {
-        return Collections.unmodifiableList(conveyor.list);
     }
 
     public List<Integer> getStatusConveyorA() {
