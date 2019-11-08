@@ -3,47 +3,35 @@ package ru.conveyor.data;
 import java.util.LinkedList;
 
 public class Conveyor {
-    public int arrayLength;
-    public LinkedList<Integer> arrList = new LinkedList<>();
+    public int length;
+    public LinkedList<Integer> list = new LinkedList<>();
 
     public Conveyor(int length) {
-        arrayLength = length;
+        this.length = length;
     }
 
     public void add(int index) {
-        arrList.addFirst(index);
+        list.addFirst(index);
     }
-
-    /*
-    * public void add(int index, int elem) {
-        arrList.add(index, elem);
-    }
-    public void addAll(Collection collection) {
-        arrList.addAll(collection);
-    }
-    public void addAll(List<Integer> list) {
-        arrList.addAll(list);
-    }
-    * */
 
     public int size() {
-        return arrList.size();
+        return list.size();
     }
 
     public void remove(int index) {
-        arrList.remove(index);
+        list.remove(index);
     }
 
     public int get(int index) {
-        return arrList.get(index);
+        return list.get(index);
     }
 
     public void set(int index, int elem) {
-        arrList.set(index, elem);
+        list.set(index, elem);
     }
 
     @Override
     public String toString() {
-        return String.valueOf(arrList);
+        return String.valueOf(list);
     }
 }

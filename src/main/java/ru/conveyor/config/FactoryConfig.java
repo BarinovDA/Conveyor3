@@ -1,9 +1,12 @@
 package ru.conveyor.config;
 
+import ru.conveyor.data.CrossingIndex;
+
+import java.util.List;
+
 public class FactoryConfig {
 
-    private int[][] crossingIndex;
-
+    private CrossingIndex crossingIndex = new CrossingIndex();
     private int convAlength;
     private int convBlength;
 
@@ -12,23 +15,25 @@ public class FactoryConfig {
             this.convAlength = lenA;
             this.convBlength = lenB;
 
-            this.crossingIndex = new int[arr.length][arr.length];
-
             for (int i = 0; i < arr.length; i++) {
-                this.crossingIndex[i][0] = arr[i][0];
-                this.crossingIndex[i][1] = arr[i][1];
+                crossingIndex.getInterConvA().add(arr[i][0]);
+                crossingIndex.getInterConvB().add(arr[i][1]);
             }
         } else {
             throw new IllegalArgumentException();
         }
     }
 
-    public int[][] getCrossingIndex() {
-        return crossingIndex;
+    public List<Integer> getIntersectionA() {
+        return crossingIndex.getInterConvA();
+    }
+
+    public List<Integer> getIntersectionB() {
+        return crossingIndex.getInterConvB();
     }
 
     public int getlengthOfCrossing() {
-        return crossingIndex.length;
+        return crossingIndex.size();
     }
 
     public int getConvAlength() {

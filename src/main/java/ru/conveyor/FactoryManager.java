@@ -29,9 +29,9 @@ public final class FactoryManager {
     }
 
     private void fillConveyor(Conveyor conveyor) {
-        for (int i = 0; i < conveyor.arrayLength; i++) {
+        for (int i = 0; i < conveyor.length; i++) {
             int x = (int) (Math.random() * 100);
-            conveyor.arrList.add(primeNumbers.get(x));
+            conveyor.list.add(primeNumbers.get(x));
         }
     }
 
@@ -48,17 +48,15 @@ public final class FactoryManager {
     }
 
     public List<Integer> getStatus(Conveyor conveyor) {
-        return Collections.unmodifiableList(conveyor.arrList);
+        return Collections.unmodifiableList(conveyor.list);
     }
-
 
     public List<Integer> getStatusConveyorA() {
-        return Collections.unmodifiableList(conveyorA.arrList);
+        return Collections.unmodifiableList(conveyorA.list);
     }
 
-
     public List<Integer> getStatusConveyorB() {
-        return Collections.unmodifiableList(conveyorB.arrList);
+        return Collections.unmodifiableList(conveyorB.list);
     }
 
     private void validateConveyorInput(int value) {
@@ -71,19 +69,19 @@ public final class FactoryManager {
         int numForReturn = conveyorToPush.get(conveyorToPush.size() - 1);
         conveyorToPush.add(num);
         //crossing
-        int convLength = config.getCrossingIndex().length;
+        int convLength = config.getIntersection().length;
         if (conveyorToPush == conveyorA) {
             for (int i = 0; i < convLength; i++) {
-                conveyorToUp.set(config.getCrossingIndex()[i][1] - 1, conveyorToPush.get(config.getCrossingIndex()[i][0] - 1));
+                conveyorToUp.set(config.getIntersection()[i][1] - 1, conveyorToPush.get(config.getIntersection()[i][0] - 1));
             }
         } else {
             for (int i = 0; i < convLength; i++) {
-                conveyorToUp.set(config.getCrossingIndex()[i][0] - 1, conveyorToPush.get(config.getCrossingIndex()[i][1] - 1));
+                conveyorToUp.set(config.getIntersection()[i][0] - 1, conveyorToPush.get(config.getIntersection()[i][1] - 1));
             }
         }
         //last crossin
-        conveyorToPush.remove(conveyorToPush.arrayLength);
-        conveyorToUp.set(conveyorToUp.arrayLength - 1, conveyorToPush.get(conveyorToPush.arrayLength - 1));
+        conveyorToPush.remove(conveyorToPush.length);
+        conveyorToUp.set(conveyorToUp.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
         return numForReturn;
     }
 

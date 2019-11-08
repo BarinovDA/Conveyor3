@@ -6,22 +6,26 @@ import java.util.List;
 
 public class CrossingIndex {
 
-    private static List<Integer> crossConvA = new LinkedList<Integer>();
-    private static List<Integer> crossConvB = new LinkedList<Integer>();
+    private static List<Integer> interConvA = new LinkedList<Integer>();
+    private static List<Integer> interConvB = new LinkedList<Integer>();
 
-    public static List<Integer> getCrossConvA() {
-        return Collections.unmodifiableList(crossConvA);
+    public static List<Integer> getInterConvA() {
+        return Collections.unmodifiableList(interConvA);
     }
 
-    public static List<Integer> getCrossConvB() {
-        return Collections.unmodifiableList(crossConvB);
+    public static List<Integer> getInterConvB() {
+        return Collections.unmodifiableList(interConvB);
     }
 
-    public static void setCrossConvA(int element) {
-        CrossingIndex.crossConvA.add(element);
+    public static void setInterConvA(int element) {
+        CrossingIndex.interConvA.add(element);
     }
 
-    public static void setCrossConvB(int element) {
-        CrossingIndex.crossConvB.add(element);
+    public static void setInterConvB(int element) {
+        CrossingIndex.interConvB.add(element);
+    }
+
+    public static int size (){
+        return interConvA.size();
     }
 }
