@@ -2,38 +2,36 @@ package ru.conveyor.config;
 
 import ru.conveyor.data.CrossingIndex;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FactoryConfig {
 
-    //todo: инициализировать в конструкторе
-    private CrossingIndex crossingIndex = new CrossingIndex();
+    private List<CrossingIndex> crossingIndex;
     private int convAlength;
     private int convBlength;
 
     //todo: конфиг не должен принимать двумерный массив в конструкторе, должен принимать List<CrossingIndex>
-    public FactoryConfig(int[][] arr, int lenA, int lenB) throws IllegalArgumentException {
-        if (validateParameters(arr, lenA, lenB)) {
+    public FactoryConfig(List<CrossingIndex> listOfInetersection, int lenA, int lenB) throws IllegalArgumentException {
+        if (validateParameters(listOfInetersection, lenA, lenB)) {
+            crossingIndex = new ArrayList<CrossingIndex>();
+            crossingIndex.addAll(listOfInetersection);
             this.convAlength = lenA;
             this.convBlength = lenB;
-
-            for (int i = 0; i < arr.length; i++) {
-                crossingIndex.setInterConvA(arr[i][0]);
-                crossingIndex.setInterConvB(arr[i][1]);
-            }
         } else {
             throw new IllegalArgumentException();
         }
     }
 
     public int getIntersectionA(int i) {
-        return crossingIndex.getInterConvA().get(i);
+        return crossingIndex.get(i).getIntersectionForConveyorA();
     }
 
     public int getIntersectionB(int i) {
-        return crossingIndex.getInterConvB().get(i);
+        return crossingIndex.get(i).getIntersectionForConveyorB();
     }
 
-    //todo: метод назван не по конвенции (l должна быть большая)
-    public int getlengthOfCrossing() {
+    public int getLengthOfCrossing() {
         return crossingIndex.size();
     }
 
@@ -45,9 +43,12 @@ public class FactoryConfig {
         return convBlength;
     }
 
-    //todo: отформатировать
-    private boolean validateParameters(int[][] arr, int lenA, int lenB) {
-        for (int[] arrElem : arr) if (arrElem[0] > lenA || arrElem[1] > lenB) return false;
+    private boolean validateParameters(List<CrossingIndex> listOfInetersection, int lenA, int lenB) {
+        for (CrossingIndex obj : listOfInetersection) {
+            if (obj.getIntersectionForConveyorA() > lenA || obj.getIntersectionForConveyorB() > lenB) {
+                return false;
+            }
+        }
         return true;
     }
 }

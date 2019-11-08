@@ -22,9 +22,8 @@ public class Conveyor {
         return list.size();
     }
 
-    // todo: у LinkedList есть метод removeLast(), надо его заюзать вместо удаления по индексу
-    public void remove(int index) {
-        list.remove(index);
+    public void removeLast() {
+        list.removeLast();
     }
 
     public int get(int index) {

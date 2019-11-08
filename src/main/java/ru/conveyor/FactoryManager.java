@@ -64,7 +64,7 @@ public final class FactoryManager {
         int numForReturn = conveyorToPush.get(conveyorToPush.size() - 1);
         conveyorToPush.add(num);
         //crossing
-        int convLength = config.getlengthOfCrossing();
+        int convLength = config.getLengthOfCrossing();
         if (conveyorToPush == conveyorA) {
             for (int i = 0; i < convLength; i++) {
                 conveyorToUp.set(config.getIntersectionB(i) - 1, conveyorToPush.get(config.getIntersectionA(i) - 1));
@@ -75,7 +75,7 @@ public final class FactoryManager {
             }
         }
         //last crossin
-        conveyorToPush.remove(conveyorToPush.length);
+        conveyorToPush.removeLast();
         conveyorToUp.set(conveyorToUp.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
         return numForReturn;
     }
