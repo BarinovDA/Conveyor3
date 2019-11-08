@@ -101,6 +101,7 @@ public class ConveyorTest {
         new FactoryConfig(crossingIndices, 3, 2);
     }
 
+    // пока не разобрался как писать все негативне тесты в одном методе
     @Test(expected = IllegalArgumentException.class)
     public void pushNegative() throws IllegalArgumentException {
         // Prepare factory manager
@@ -114,8 +115,8 @@ public class ConveyorTest {
         // Start factory
         factoryManager.startFactory();
 
-        factoryManager.pushA(-1);
-        factoryManager.pushB(-10);
+        factoryManager.pushA(-1);// не уверен то так можно
+        factoryManager.pushB(-10);// сразу два в одном
     }
 
     @Test(expected = IllegalArgumentException.class)
