@@ -42,7 +42,6 @@ public class ConveyorTest {
         // Assert pushed value
         Assert.assertThat(statusConveyorA.get(0), CoreMatchers.is(17));
 
-
         // Push values
         valueToBeReturned = statusConveyorB.get(statusConveyorB.size() - 1);
         returnedValue = factoryManager.pushB(19);
@@ -55,6 +54,23 @@ public class ConveyorTest {
 
         // Assert pushed value
         Assert.assertThat(statusConveyorB.get(0), CoreMatchers.is(19));
-    }
 
+        // InterSection verify
+        valueToBeReturned = statusConveyorA.get(statusConveyorA.size() - 1);
+        returnedValue = statusConveyorB.get(statusConveyorB.size() - 1);
+
+        Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
+
+        // InterSection verify in middle
+        for (int i = 0; i < factoryConfig.getlengthOfCrossing(); i++) {
+
+            int intersectionIndexA = factoryConfig.getIntersectionA(i) - 1;
+            int intersectionIndexB = factoryConfig.getIntersectionB(i) - 1;
+
+            valueToBeReturned = factoryManager.getStatusConveyorA().get(intersectionIndexA);
+            returnedValue = factoryManager.getStatusConveyorB().get(intersectionIndexB);
+
+            Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
+        }
+    }
 }

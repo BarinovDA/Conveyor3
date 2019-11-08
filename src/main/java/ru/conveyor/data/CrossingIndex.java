@@ -25,7 +25,7 @@ public class CrossingIndex {
         CrossingIndex.interConvB.add(element);
     }
 
-    public static int size (){
+    public static int size() {
         return interConvA.size();
     }
 }

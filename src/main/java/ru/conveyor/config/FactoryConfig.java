@@ -14,8 +14,8 @@ public class FactoryConfig {
             this.convBlength = lenB;
 
             for (int i = 0; i < arr.length; i++) {
-                crossingIndex.getInterConvA().add(arr[i][0]);
-                crossingIndex.getInterConvB().add(arr[i][1]);
+                crossingIndex.setInterConvA(arr[i][0]);
+                crossingIndex.setInterConvB(arr[i][1]);
             }
         } else {
             throw new IllegalArgumentException();
