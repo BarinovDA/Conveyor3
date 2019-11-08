@@ -78,8 +78,36 @@ public class ConveyorTest {
 
             Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
         }
-    }
+/*
+        // Negative test not Prime namber
+        int notPrimeNumber = 2;
+        Assert.assertThat(notPrimeNumber, CoreMatchers.is(IllegalArgumentException));
 
+        // Push negative number
+        int negativNumber = -3;
+        Assert.assertThat(negativNumber, CoreMatchers.is(IllegalArgumentException));
+
+        // Push null
+        Assert.assertThat(null, CoreMatchers.is(IllegalArgumentException));
+
+        // Negative length of conveyor
+        Assert.assertThat(new FactoryConfig(crossingIndices,-5,15), CoreMatchers.is(IllegalArgumentException));
+
+        // Index of intersection is biggest
+        Assert.assertThat(new FactoryConfig(crossingIndices,3,4), CoreMatchers.is(IllegalArgumentException));
+*/
+
+
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTet () throws IllegalArgumentException{
+        // Prepare factory manager
+        List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
+        crossingIndices.add(new CrossingIndex(3,4));
+        crossingIndices.add(new CrossingIndex(6,8));
+
+        new FactoryConfig(crossingIndices, 3,2);
+    }
     //todo: добавить ещё один тест (негативный) в этом классе на попытку pushA отрицательное число/не простое число/null
     //todo: на передачу в конфиг отрицательной длины конвееров
     //todo: на передачу индексов пересечения больше длины конвееров (в методе FactoryConfig.validateParameters(...) есть проверка)
