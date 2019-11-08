@@ -16,8 +16,8 @@ public class ConveyorTest {
     public void factoryManagerTest() {
         // Prepare factory manager
         List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
-        crossingIndices.add(new CrossingIndex(3,4));
-        crossingIndices.add(new CrossingIndex(6,8));
+        crossingIndices.add(new CrossingIndex(3, 4));
+        crossingIndices.add(new CrossingIndex(6, 8));
 
         FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 9, 15);
 
@@ -99,14 +99,15 @@ public class ConveyorTest {
 
 
     }
+
     @Test(expected = IllegalArgumentException.class)
-    public void negativeTet () throws IllegalArgumentException{
+    public void negativeTet() throws IllegalArgumentException {
         // Prepare factory manager
         List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
-        crossingIndices.add(new CrossingIndex(3,4));
-        crossingIndices.add(new CrossingIndex(6,8));
+        crossingIndices.add(new CrossingIndex(3, 4));
+        crossingIndices.add(new CrossingIndex(6, 8));
 
-        new FactoryConfig(crossingIndices, 3,2);
+        new FactoryConfig(crossingIndices, 3, 2);
     }
     //todo: добавить ещё один тест (негативный) в этом классе на попытку pushA отрицательное число/не простое число/null
     //todo: на передачу в конфиг отрицательной длины конвееров
