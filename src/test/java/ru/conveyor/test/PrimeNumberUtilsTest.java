@@ -6,8 +6,6 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 public class PrimeNumberUtilsTest {
 
-
-
     public void testUtils (){
 
         // test PrimeNumbersUtils.isPrime
