@@ -2,8 +2,6 @@ package ru.conveyor.config;
 
 import ru.conveyor.data.CrossingIndex;
 
-import java.util.List;
-
 public class FactoryConfig {
 
     private CrossingIndex crossingIndex = new CrossingIndex();
@@ -24,12 +22,12 @@ public class FactoryConfig {
         }
     }
 
-    public List<Integer> getIntersectionA() {
-        return crossingIndex.getInterConvA();
+    public int getIntersectionA(int i) {
+        return crossingIndex.getInterConvA().get(i);
     }
 
-    public List<Integer> getIntersectionB() {
-        return crossingIndex.getInterConvB();
+    public int getIntersectionB(int i) {
+        return crossingIndex.getInterConvB().get(i);
     }
 
     public int getlengthOfCrossing() {
