@@ -1,41 +1,23 @@
 package ru.conveyor.data;
 
-import java.util.LinkedList;
+import java.util.List;
 
-//todo: тут надо подумать как всё это спрятать (перенести conveyor на package-default уровень),
-// public доступ не подходит.
-// конвеер это внутренняя кухня для FactoryManager доступа извне быть не должно
+//todo: интерфейс для конвееров все 3 реализации (2 обычные + 1 потокобезопасная) должны реализовывать этот интерфейс
+// во внешнем коде (из FactoryManager) работать с конвеерами только через интерфейс
+public interface Conveyor {
 
-public class Conveyor {
-    public int length;
-    public LinkedList<Integer> list = new LinkedList<>();
+    /**
+     * Pushes a value in the beginning of conveyor and removes the value from the end.
+     *
+     * @param value - value to push (add as first)
+     * @return - value to be returned (removed last)
+     */
+    int pushValue(int value);
 
-    public Conveyor(int length) {
-        this.length = length;
-    }
-
-    public void add(int index) {
-        list.addFirst(index);
-    }
-
-    public int size() {
-        return list.size();
-    }
-
-    public void removeLast() {
-        list.removeLast();
-    }
-
-    public int get(int index) {
-        return list.get(index);
-    }
-
-    public void set(int index, int elem) {
-        list.set(index, elem);
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(list);
-    }
+    /**
+     * Returns current conveyor status (numbers within)
+     *
+     * @return unmodifiable list of current values
+     */
+    List<Integer> getStatus();
 }

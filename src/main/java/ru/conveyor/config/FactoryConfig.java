@@ -14,12 +14,12 @@ public class FactoryConfig {
     //todo: конфиг не должен принимать двумерный массив в конструкторе, должен принимать List<CrossingIndex>
     public FactoryConfig(List<CrossingIndex> listOfInetersection, int lenA, int lenB) throws IllegalArgumentException {
         if (validateParameters(listOfInetersection, lenA, lenB)) {
-            crossingIndex = new ArrayList<CrossingIndex>();
-            crossingIndex.addAll(listOfInetersection);
+            crossingIndex = new ArrayList<>();
+            crossingIndex.addAll(listOfInetersection); //todo: лист можно сразу в конструкторе Arraylist передавать
             this.convAlength = lenA;
             this.convBlength = lenB;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(); //todo: надо текст ошибки передавать что именно не так с параметрами
         }
     }
 
@@ -43,7 +43,9 @@ public class FactoryConfig {
         return convBlength;
     }
 
+    //todo: что за InEteresection? идея зря что ль тебе слова подчеркивает?
     private boolean validateParameters(List<CrossingIndex> listOfInetersection, int lenA, int lenB) {
+        //todo: что за имя переменной obj? назвал бы просто 'o'
         for (CrossingIndex obj : listOfInetersection) {
             if (obj.getIntersectionForConveyorA() > lenA || obj.getIntersectionForConveyorB() > lenB) {
                 return false;

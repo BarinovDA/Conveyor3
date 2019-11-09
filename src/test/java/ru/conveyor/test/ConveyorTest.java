@@ -7,6 +7,8 @@ import ru.conveyor.FactoryManager;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.CrossingIndex;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,6 +80,8 @@ public class ConveyorTest {
 
             Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
         }
+
+        //todo: это можно удалять
 /*
         // Negative test not Prime namber
         int notPrimeNumber = 2;
@@ -90,9 +94,11 @@ public class ConveyorTest {
 
     }
 
+    //todo: pooin?
+
     // Intersection pooin out of length conveyor
     @Test(expected = IllegalArgumentException.class)
-    public void outOfLength() throws IllegalArgumentException {
+    public void outOfLengthTest() throws IllegalArgumentException {
         // Prepare factory manager
         List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
         crossingIndices.add(new CrossingIndex(3, 4));
@@ -103,9 +109,9 @@ public class ConveyorTest {
 
     // пока не разобрался как писать все негативне тесты в одном методе
     @Test(expected = IllegalArgumentException.class)
-    public void pushNegative() throws IllegalArgumentException {
+    public void pushNegativeTest() throws IllegalArgumentException {
         // Prepare factory manager
-        List<CrossingIndex> crossingIndices = new LinkedList<CrossingIndex>();
+        List<CrossingIndex> crossingIndices = new LinkedList<>();
         crossingIndices.add(new CrossingIndex(3, 4));
         crossingIndices.add(new CrossingIndex(6, 8));
 
@@ -115,6 +121,7 @@ public class ConveyorTest {
         // Start factory
         factoryManager.startFactory();
 
+        //todo: у тебя до строчки pushB(-10) тест никогда не доходит
         factoryManager.pushA(-1);// не уверен то так можно
         factoryManager.pushB(-10);// сразу два в одном
     }
@@ -131,12 +138,83 @@ public class ConveyorTest {
 
         // Start factory
         factoryManager.startFactory();
+        //todo: предыдущие подготовительные строки дублируются из теста в тест
+        // вынести в отдельный метод prepareFactory() который вернёт конфиг
 
         factoryManager.pushA(2);
         factoryManager.pushB(6);
     }
-    //todo: добавить ещё один тест (негативный) в этом классе на попытку pushA отрицательное число/не простое число/null
-    //todo: на передачу в конфиг отрицательной длины конвееров
-    //todo: на передачу индексов пересечения больше длины конвееров (в методе FactoryConfig.validateParameters(...) есть проверка)
-    //todo: и заассертить что ожидаемо выбрасывается нужный эксепшн
+
+    //todo: Не падает, а должен
+    @Test
+    public void pushIllegalValuesTest() throws IllegalArgumentException {
+        boolean exceptionIsThrown = false;
+
+        // Negative case Length A
+        try {
+            new FactoryManager(new FactoryConfig(Collections.emptyList(), -5, 5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+        exceptionIsThrown = false;
+
+        // Negative case Length B
+        try {
+            new FactoryManager(new FactoryConfig(Collections.emptyList(), 5, -5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+        exceptionIsThrown = false;
+
+
+        // Negative case null variables
+        try {
+            new FactoryManager(new FactoryConfig(null, 5, 5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+        exceptionIsThrown = false;
+
+
+        // Negative case null variables
+        try {
+            List<CrossingIndex> crossingIndices = Arrays.asList(new CrossingIndex(2, 2), null);
+            new FactoryManager(new FactoryConfig(crossingIndices, 5, 5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+        exceptionIsThrown = false;
+
+        // Negative case negative intersection values
+        try {
+            List<CrossingIndex> crossingIndices = Arrays.asList(new CrossingIndex(-2, 2), null);
+            new FactoryManager(new FactoryConfig(crossingIndices, 5, 5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+        exceptionIsThrown = false;
+
+        // Negative case negative intersection values
+        try {
+            List<CrossingIndex> crossingIndices = Arrays.asList(new CrossingIndex(2, -2), null);
+            new FactoryManager(new FactoryConfig(crossingIndices, 5, 5));
+        } catch (IllegalArgumentException exception) {
+            exceptionIsThrown = true;
+        }
+
+        Assert.assertTrue(exceptionIsThrown);
+
+        //todo: отрефакторить этот тест, слишкмо много копипасты
+    }
+
 }
