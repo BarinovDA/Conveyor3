@@ -47,6 +47,19 @@ public class SimpleConveyor implements Conveyor {
         return 0;
     }
 
+    // todo: реализовать
+
+    @Override
+    public List<Integer> getIntersectionValues() {
+        return null;
+    }
+
+    // todo: реализовать
+    @Override
+    public void updateIntersectionPoints(List<Integer> values) {
+
+    }
+
     //todo: реализовать
     @Override
     public List<Integer> getStatus() {

@@ -1,5 +1,7 @@
 package ru.conveyor.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // todo: реализовать (как того требует задание) другой вариант работы конвеера
@@ -15,15 +17,53 @@ import java.util.List;
 //  более оптимальной с точки зрения поиска элементов по индексу и быстрой вставкой в голову и в хвост.
 public class ComplexConveyor implements Conveyor {
 
-    // todo: реализовать
-    @Override
-    public int pushValue(int value) {
-        return 0;
+    private List<Integer> queue;
+    private List<Integer> intersectionIndices;
+
+    public ComplexConveyor(int length, List<Integer> intersectionIndices) {
+        this.queue = new ArrayList<>(length);
+        this.intersectionIndices = new ArrayList<>(intersectionIndices);
+
+        for (int i = 0; i < length; i++) {
+            queue.add(0);
+        }
     }
 
-    //todo: реализовать
+    @Override
+    public int pushValue(int value) {
+        int result = queue.get(queue.size() - 1);
+
+        for (int i = queue.size() - 1; i > 0; i--) {
+            queue.set(i, queue.get(i - 1));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Integer> getIntersectionValues() {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < intersectionIndices.size(); i++) {
+            result.add(queue.get(intersectionIndices.get(i)));
+        }
+
+        return result;
+    }
+
+    @Override
+    public void updateIntersectionPoints(List<Integer> values) {
+        if (values.size() != intersectionIndices.size()) {
+            throw new IllegalArgumentException("Incoming values size should match config");
+        }
+
+        for (int i = 0; i < intersectionIndices.size(); i++) {
+            queue.set(intersectionIndices.get(i), values.get(i));
+        }
+    }
+
     @Override
     public List<Integer> getStatus() {
-        return null;
+        return Collections.unmodifiableList(queue);
     }
 }

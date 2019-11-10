@@ -8,10 +8,24 @@ import java.util.List;
 //  делать в конце
 public class ThreadSafeConveyor implements Conveyor {
 
+    public ThreadSafeConveyor(int convlength) {
+
+    }
+
     // todo: реализовать
     @Override
     public int pushValue(int value) {
         return 0;
+    }
+
+    @Override
+    public List<Integer> getIntersectionValues() {
+        return null;
+    }
+
+    @Override
+    public void updateIntersectionPoints(List<Integer> values) {
+
     }
 
     //todo: реализовать

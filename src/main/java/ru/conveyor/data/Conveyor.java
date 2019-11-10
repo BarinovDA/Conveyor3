@@ -15,6 +15,22 @@ public interface Conveyor {
     int pushValue(int value);
 
     /**
+     * Returns values at intersection points
+     *
+     * @return unmodifiable list of values
+     */
+    List<Integer> getIntersectionValues();
+
+
+    /**
+     * Updates intersection points with given array
+     *
+     * @param values - values to update
+     * @return - value to be returned (removed last)
+     */
+    void updateIntersectionPoints(List<Integer> values);
+
+    /**
      * Returns current conveyor status (numbers within)
      *
      * @return unmodifiable list of current values

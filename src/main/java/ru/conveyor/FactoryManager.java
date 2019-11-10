@@ -1,7 +1,11 @@
 package ru.conveyor;
 
+import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ComplexConveyor;
+import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.SimpleConveyor;
+import ru.conveyor.data.ThreadSafeConveyor;
 import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
@@ -11,8 +15,8 @@ public final class FactoryManager {
 
     private final FactoryConfig config;
 
-    private final SimpleConveyor conveyorA;
-    private final SimpleConveyor conveyorB;
+    private final Conveyor conveyorA;
+    private final Conveyor conveyorB;
 
     private List<Integer> primeNumbers;
 
@@ -20,8 +24,22 @@ public final class FactoryManager {
     // Если аргументы не были переданы использовать класс PropertiesReader и читать конфиг из файла
     public FactoryManager(FactoryConfig config) {
         this.config = config;
-        this.conveyorA = new SimpleConveyor(config.getConvAlength());
-        this.conveyorB = new SimpleConveyor(config.getConvBlength());
+
+        switch (config.getConveyorType()) {
+            case SIMPLE:
+                this.conveyorA = new SimpleConveyor(config.getConvAlength());
+                this.conveyorB = new SimpleConveyor(config.getConvBlength());
+                break;
+            case COMPLEX:
+                this.conveyorA = new ComplexConveyor(config.getConvAlength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new ComplexConveyor(config.getConvBlength(), config.getIntersectionIndicesForB());
+                break;
+            case THREAD_SAFE:
+                this.conveyorA = new ThreadSafeConveyor(config.getConvAlength());
+                this.conveyorB = new ThreadSafeConveyor(config.getConvBlength());
+                break;
+                default: throw new IllegalArgumentException("Unknown conveyor type");
+        }
     }
 
     public void startFactory() {
@@ -38,8 +56,8 @@ public final class FactoryManager {
     }
 
     //todo: приватные методы должны идти по порядку в классе после публичных
-    private void fillConveyor(SimpleConveyor conveyor) {
-        for (int i = 0; i < conveyor.length; i++) {
+    private void fillConveyor(Conveyor conveyor) {
+        for (int i = 0; i < conveyor.getStatus().size(); i++) {
             //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
             // коммент нужен не что там, а зачем это там и какую нагрузку несёт.
             // Например, "Getting random prime number from pre-filled collection size of 100'
@@ -49,7 +67,7 @@ public final class FactoryManager {
             int x = (int) (Math.random() * 100);
 
             //todo: доступ к филдам должны идти через геттеры
-            conveyor.list.add(primeNumbers.get(x));
+            conveyor.pushValue(primeNumbers.get(x));
         }
     }
 
@@ -64,11 +82,11 @@ public final class FactoryManager {
     }
 
     public List<Integer> getStatusConveyorA() {
-        return Collections.unmodifiableList(conveyorA.list);
+        return Collections.unmodifiableList(conveyorA.getStatus());
     }
 
     public List<Integer> getStatusConveyorB() {
-        return Collections.unmodifiableList(conveyorB.list);
+        return Collections.unmodifiableList(conveyorB.getStatus());
     }
 
     private void validateConveyorInput(int value) {
@@ -77,25 +95,27 @@ public final class FactoryManager {
         }
     }
 
-    // todo: вся эта логика должна быть внутри класса конвеера
-    private int pushConveyor(int num, SimpleConveyor conveyorToPush, SimpleConveyor conveyorToUp) {
-        int numForReturn = conveyorToPush.get(conveyorToPush.size() - 1);
-        conveyorToPush.add(num);
-        //crossing
-        int convLength = config.getLengthOfCrossing();
-        if (conveyorToPush == conveyorA) {
-            for (int i = 0; i < convLength; i++) {
-                conveyorToUp.set(config.getIntersectionB(i) - 1, conveyorToPush.get(config.getIntersectionA(i) - 1));
-            }
-        } else {
-            for (int i = 0; i < convLength; i++) {
-                conveyorToUp.set(config.getIntersectionA(i) - 1, conveyorToPush.get(config.getIntersectionB(i) - 1));
-            }
-        }
+    private int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUpdate) {
+        int numForReturn = conveyorToPush.pushValue(num);
 
-        //last crossing
-        conveyorToPush.removeLast();
-        conveyorToUp.set(conveyorToUp.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
+        conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
+
+        // todo: вся эта логика должна быть внутри класса конвеера
+        //crossing
+//        int convLength = config.getLengthOfCrossing();
+//        if (conveyorToPush == conveyorA) {
+//            for (int i = 0; i < convLength; i++) {
+//                conveyorToUpdate.set(config.getIntersectionB(i) - 1, conveyorToPush.get(config.getIntersectionA(i) - 1));
+//            }
+//        } else {
+//            for (int i = 0; i < convLength; i++) {
+//                conveyorToUpdate.set(config.getIntersectionA(i) - 1, conveyorToPush.get(config.getIntersectionB(i) - 1));
+//            }
+//        }
+//
+//        //last crossing
+//        conveyorToPush.removeLast();
+//        conveyorToUpdate.set(conveyorToUpdate.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
 
         return numForReturn;
     }

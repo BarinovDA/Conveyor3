@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class FactoryController {
 
-    @PostMapping("/factory/conveyor/b/push")
+    @PostMapping("/factory/conveyor/a/push")
     public Integer pushValueToConveyorA(@RequestBody String value) {
         return 0; // todo: реализовать
     }
