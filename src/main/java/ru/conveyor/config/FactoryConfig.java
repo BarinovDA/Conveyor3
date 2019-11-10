@@ -5,6 +5,9 @@ import ru.conveyor.data.CrossingIndex;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo: сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
+// Добавить в конструктор конфига этот класс. В config.properties файле параметр уже есть.
+// Выбирать реализацию конвеера для работы исходя из этого параметра.
 public class FactoryConfig {
 
     private List<CrossingIndex> crossingIndex;

@@ -5,6 +5,7 @@ import java.util.List;
 
 // todo: здесь будет потокобезопасная реализация конвеера,
 //  одновременные вызовы pushA/pushB/getStatusA/getStatusB методов должны быть потокобезопасные
+//  делать в конце
 public class ThreadSafeConveyor implements Conveyor {
 
     // todo: реализовать
