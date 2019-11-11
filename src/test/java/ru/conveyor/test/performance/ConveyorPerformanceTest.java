@@ -13,6 +13,7 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -20,6 +21,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @Measurement(iterations = 5, time = 500, timeUnit = MILLISECONDS)
 @BenchmarkMode(Mode.Throughput)
 public class ConveyorPerformanceTest {
+
+    public static final int CONVEYORS_LENGTHS = 1000;
 
     @Benchmark
     public void simpleConveyorPerformanceTest() {
@@ -34,14 +37,20 @@ public class ConveyorPerformanceTest {
         startFactoryLoad(factoryManager);
     }
 
+    @Benchmark
+    public void apacheTreeListConveyorPerformanceTest() {
+        FactoryManager factoryManager = prepareFactory(ConveyorType.APACHE_TREE_LIST);
+        startFactoryLoad(factoryManager);
+    }
+
     private FactoryManager prepareFactory(ConveyorType conveyorType) {
         List<IntersectionPoint> crossingIndices = new LinkedList<>();
 
-        for (int i = 5; i < 100; i += 5) {
-            crossingIndices.add(new IntersectionPoint(i, i - 1));
+        for (int i = 20; i < 1000; i += 20) {
+            crossingIndices.add(new IntersectionPoint(i, i - 5));
         }
 
-        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 100, 100, conveyorType) ;
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType) ;
 
         FactoryManager factoryManager = new FactoryManager(factoryConfig);
 
@@ -54,9 +63,16 @@ public class ConveyorPerformanceTest {
     private void startFactoryLoad(FactoryManager factoryManager) {
         List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
 
-        for (int i = 0; i < 100; i++) {
-            factoryManager.pushA(primes.get(i));
-            factoryManager.pushB(primes.get(i));
+        Random random = new Random();
+
+        for (int i = 0; i < CONVEYORS_LENGTHS; i++) {
+            factoryManager.pushA(primes.get(random.nextInt(100)));
+            factoryManager.pushB(primes.get(random.nextInt(100)));
+
+            if (i % 10 == 0) {
+                factoryManager.getStatusConveyorA();
+                factoryManager.getStatusConveyorB();
+            }
         }
     }
 

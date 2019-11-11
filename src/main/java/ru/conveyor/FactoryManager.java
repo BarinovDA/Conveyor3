@@ -1,6 +1,7 @@
 package ru.conveyor;
 
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ComplexConveyor;
 import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.SimpleConveyor;
@@ -33,11 +34,15 @@ public final class FactoryManager {
                 this.conveyorA = new ComplexConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
                 this.conveyorB = new ComplexConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
+            case APACHE_TREE_LIST:
+                this.conveyorA = new ApacheTreeListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new ApacheTreeListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
+                break;
             case THREAD_SAFE:
                 this.conveyorA = new ThreadSafeConveyor(config.getConveyorALength());
                 this.conveyorB = new ThreadSafeConveyor(config.getConveyorBLength());
                 break;
-                default: throw new IllegalArgumentException("Unknown conveyor type");
+            default: throw new IllegalArgumentException("Unknown conveyor type");
         }
     }
 

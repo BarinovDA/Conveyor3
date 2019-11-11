@@ -1,6 +1,7 @@
 package ru.conveyor.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -33,18 +34,8 @@ public class ComplexConveyor implements Conveyor {
 
     @Override
     public int pushValue(int value) {
-        // last element which will be dropped
-        int result = queue.get(queue.size() - 1);
-
-        // move elements
-        for (int i = queue.size() - 1; i > 0; i--) {
-            queue.set(i, queue.get(i - 1));
-        }
-
-        // add to head
-        queue.set(0, value);
-
-        return result;
+        queue.add(0, value);
+        return queue.remove(queue.size() - 1);
     }
 
     @Override
