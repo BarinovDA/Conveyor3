@@ -1,15 +1,20 @@
 package ru.conveyor.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 //сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
 // Добавить в конструктор конфига этот класс. В config.properties файле параметр уже есть.
 // Выбирать реализацию конвеера для работы исходя из этого параметра.
+@Configuration
 public class FactoryConfig {
 
     private List<IntersectionPoint> intersectionPoints;
@@ -19,9 +24,39 @@ public class FactoryConfig {
 
     private ConveyorType conveyorType;
 
-    public FactoryConfig(List<IntersectionPoint> intersectionPoints,
-                         int conveyorALength, int conveyorBLength,
-                         ConveyorType conveyorType) throws IllegalArgumentException {
+
+    @Autowired
+    public FactoryConfig(
+        @Value(value = "#{'${intersections}'.split(';')}")
+            Set<String> intersectionPoints,
+        @Value(value = "${conveyors.a.length}")
+            int conveyorALength,
+        @Value(value = "${conveyors.b.length}")
+            int conveyorBLength,
+        @Value(value = "${conveyors.type}")
+            ConveyorType conveyorType) throws IllegalArgumentException {
+
+        List<IntersectionPoint> intersectionPointsList = new ArrayList<>();
+
+        for (String s : intersectionPoints) {
+            String[] split = s.split(",");
+            IntersectionPoint point = new IntersectionPoint(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+            intersectionPointsList.add(point);
+        }
+
+        validateParameters(intersectionPointsList, conveyorALength, conveyorBLength, conveyorType);
+
+        this.intersectionPoints = new ArrayList<>(intersectionPointsList);
+        this.conveyorALength = conveyorALength;
+        this.conveyorBLength = conveyorBLength;
+        this.conveyorType = conveyorType;
+    }
+
+    public FactoryConfig(
+        List<IntersectionPoint> intersectionPoints,
+        int conveyorALength,
+        int conveyorBLength,
+        ConveyorType conveyorType) throws IllegalArgumentException {
 
         validateParameters(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
 
@@ -31,9 +66,9 @@ public class FactoryConfig {
         this.conveyorType = conveyorType;
     }
 
-    public FactoryConfig() throws Exception {
-        getPropertiesValue();
-    }
+//    public FactoryConfig() throws Exception {
+//        getPropertiesValue();
+//    }
 
     public ConveyorType getConveyorType() {
         return conveyorType;

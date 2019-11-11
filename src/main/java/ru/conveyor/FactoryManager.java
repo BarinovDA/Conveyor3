@@ -1,7 +1,6 @@
 package ru.conveyor;
 
-import org.apache.commons.math3.primes.Primes;
-import org.apache.commons.math3.util.MathUtils;
+import org.springframework.stereotype.Service;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ComplexConveyor;
@@ -13,8 +12,8 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
+@Service
 public final class FactoryManager {
 
     private final FactoryConfig config;
