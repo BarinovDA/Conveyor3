@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrimeNumberUtils {
-
+    /**
+     * Method return List of prime number, length of list 108 elements.
+     * */
     public static List<Integer> generatePrimeNumber() {
         List<Integer> list = new ArrayList<>();
 
-        //todo: комменты с двумя звёздочками в начале пишутся как заголовки филдов или классов/методов
-        /**
-         * Method return List of prime number, length of list 108 elements.
-         * */
         // до 600 потому, опытным путем подобранно, для создания Листа на ~ 100 эл-ов
 
         //todo: подключить через Maven библиотеку Apache Commons Math и поменять цикл на

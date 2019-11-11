@@ -13,13 +13,13 @@ public class IntersectionPoint {
         return indexB;
     }
 
-    public IntersectionPoint(int indexA, int indexB) throws RuntimeException {
+    public IntersectionPoint(int indexA, int indexB) throws IllegalArgumentException {
         if (indexA > 0 && indexB > 0) {
             this.indexA = indexA;
             this.indexB = indexB;
         } else {
-            //todo: поменять на IllegalArgumentException
-            throw new RuntimeException("You can make only positive intersection point");
+            //поменять на IllegalArgumentException
+            throw new IllegalArgumentException("You can make only positive intersection point");
         }
     }
 }

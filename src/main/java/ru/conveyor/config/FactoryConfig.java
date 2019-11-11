@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//todo: сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
+//сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
 // Добавить в конструктор конфига этот класс. В config.properties файле параметр уже есть.
 // Выбирать реализацию конвеера для работы исходя из этого параметра.
 public class FactoryConfig {
@@ -25,13 +25,13 @@ public class FactoryConfig {
                          ConveyorType conveyorType) throws IllegalArgumentException {
 
         if (validateParameters(intersectionPoints, lenA, lenB, conveyorType)) {
-            crossingIndex = new ArrayList<>();
-            crossingIndex.addAll(intersectionPoints); //todo: лист можно сразу в конструкторе Arraylist передавать
+            crossingIndex = new ArrayList<>(intersectionPoints);
+            //crossingIndex.addAll(intersectionPoints); //лист можно сразу в конструкторе Arraylist передавать //это не понял
             this.convAlength = lenA;
             this.convBlength = lenB;
             this.conveyorType = conveyorType;
         } else {
-            throw new IllegalArgumentException(); //todo: надо текст ошибки передавать что именно не так с параметрами
+            throw new IllegalArgumentException("Point of intersection outside the length"); //надо текст ошибки передавать что именно не так с параметрами
         }
     }
 
@@ -77,11 +77,10 @@ public class FactoryConfig {
         return convBlength;
     }
 
-    //todo: что за InEteresection? идея зря что ль тебе слова подчеркивает?
-    private boolean validateParameters(List<IntersectionPoint> listOfInetersection, int lenA, int lenB, ConveyorType conveyorType) {
-        //todo: что за имя переменной obj? назвал бы просто 'o'
-        for (IntersectionPoint obj : listOfInetersection) {
-            if (obj.getIntersectionForConveyorA() > lenA || obj.getIntersectionForConveyorB() > lenB) {
+
+    private boolean validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
+        for (IntersectionPoint object : listOfIntersection) {
+            if (object.getIntersectionForConveyorA() > lenA || object.getIntersectionForConveyorB() > lenB) {
                 return false;
             }
         }

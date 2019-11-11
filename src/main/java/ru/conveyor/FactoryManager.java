@@ -64,10 +64,10 @@ public final class FactoryManager {
             // названия переменных меньше чем из 3 букв не принимаются по всем конвенциям
 
             // случайное число от 1 до 100
-            int x = (int) (Math.random() * 100);
+            int randomNumber = (int) (Math.random() * 100);
 
             //todo: доступ к филдам должны идти через геттеры
-            conveyor.pushValue(primeNumbers.get(x));
+            conveyor.pushValue(primeNumbers.get(randomNumber));
         }
     }
 

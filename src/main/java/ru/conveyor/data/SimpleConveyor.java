@@ -10,9 +10,10 @@ import java.util.List;
 public class SimpleConveyor implements Conveyor {
 
     public int length;
-    public LinkedList<Integer> list = new LinkedList<>(); //todo: инициализировать в конструкторе
+    public LinkedList<Integer> list; //инициализировать в конструкторе
 
     public SimpleConveyor(int length) {
+        list = new LinkedList<>();
         this.length = length;
     }
 
