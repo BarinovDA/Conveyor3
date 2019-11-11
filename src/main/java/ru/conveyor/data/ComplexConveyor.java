@@ -47,7 +47,6 @@ public class ComplexConveyor implements Conveyor {
         for (int i = 0; i < intersectionIndices.size(); i++) {
             result.add(queue.get(intersectionIndices.get(i)));
         }
-
         return result;
     }
 

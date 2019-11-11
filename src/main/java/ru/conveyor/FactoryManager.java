@@ -10,6 +10,7 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 public final class FactoryManager {
 
@@ -42,6 +43,11 @@ public final class FactoryManager {
         }
     }
 
+   /* public FactoryManager() {
+        //Properties properties = new Properties();
+
+    }*/
+
     public void startFactory() {
         primeNumbers = PrimeNumberUtils.generatePrimeNumber();
         fillConveyor(conveyorA);
@@ -53,22 +59,6 @@ public final class FactoryManager {
     //
     public Object getFactoryStatus() {
         return null; //todo: добавить отдельный класс представление, чтоб в нем был конфиг + оба конвеера
-    }
-
-    //todo: приватные методы должны идти по порядку в классе после публичных
-    private void fillConveyor(Conveyor conveyor) {
-        for (int i = 0; i < conveyor.getStatus().size(); i++) {
-            //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
-            // коммент нужен не что там, а зачем это там и какую нагрузку несёт.
-            // Например, "Getting random prime number from pre-filled collection size of 100'
-            // названия переменных меньше чем из 3 букв не принимаются по всем конвенциям
-
-            // случайное число от 1 до 100
-            int randomNumber = (int) (Math.random() * 100);
-
-            //todo: доступ к филдам должны идти через геттеры
-            conveyor.pushValue(primeNumbers.get(randomNumber));
-        }
     }
 
     public int pushA(int value) throws IllegalArgumentException {
@@ -118,6 +108,21 @@ public final class FactoryManager {
 //        conveyorToUpdate.set(conveyorToUpdate.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
 
         return numForReturn;
+    }
+
+    private void fillConveyor(Conveyor conveyor) {
+        for (int i = 0; i < conveyor.getStatus().size(); i++) {
+            //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
+            // коммент нужен не что там, а зачем это там и какую нагрузку несёт.
+            // Например, "Getting random prime number from pre-filled collection size of 100'
+            // названия переменных меньше чем из 3 букв не принимаются по всем конвенциям
+
+            // случайное число от 1 до 100
+            int randomNumber = (int) (Math.random() * 100);
+
+            //todo: доступ к филдам должны идти через геттеры
+            conveyor.pushValue(primeNumbers.get(randomNumber));
+        }
     }
 
 }
