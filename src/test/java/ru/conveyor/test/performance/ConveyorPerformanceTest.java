@@ -2,12 +2,17 @@ package ru.conveyor.test.performance;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import ru.conveyor.FactoryManager;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.util.PrimeNumberUtils;
 
@@ -19,27 +24,22 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Warmup(iterations = 5, time = 300, timeUnit = MILLISECONDS)
 @Measurement(iterations = 5, time = 500, timeUnit = MILLISECONDS)
+@Fork(1)
 @BenchmarkMode(Mode.Throughput)
+@State(Scope.Benchmark)
 public class ConveyorPerformanceTest {
 
-    public static final int CONVEYORS_LENGTHS = 1000;
+    @Param
+    private ConveyorType conveyorType;
+
+    private static final int CONVEYORS_LENGTHS = 1000;
 
     @Benchmark
-    public void simpleConveyorPerformanceTest() {
-        FactoryManager factoryManager = prepareFactory(ConveyorType.SIMPLE);
-        startFactoryLoad(factoryManager);
-    }
-
-
-    @Benchmark
-    public void complexConveyorPerformanceTest() {
-        FactoryManager factoryManager = prepareFactory(ConveyorType.COMPLEX);
-        startFactoryLoad(factoryManager);
-    }
-
-    @Benchmark
-    public void apacheTreeListConveyorPerformanceTest() {
-        FactoryManager factoryManager = prepareFactory(ConveyorType.APACHE_TREE_LIST);
+    public void conveyorPerformanceTest() {
+        if (conveyorType == ConveyorType.THREAD_SAFE) {
+            return; // todo: not implemented yet
+        }
+        FactoryManager factoryManager = prepareFactory(conveyorType);
         startFactoryLoad(factoryManager);
     }
 

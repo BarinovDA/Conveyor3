@@ -98,7 +98,7 @@ public class ConveyorNegativeTest {
 
         // Negative case null variables
         try {
-            new FactoryManager(new FactoryConfig(null, 5, 5, ConveyorType.SIMPLE));
+            new FactoryManager(new FactoryConfig(Arrays.asList(null), 5, 5, ConveyorType.SIMPLE));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
