@@ -1,6 +1,5 @@
 package ru.conveyor.config;
 
-import org.junit.jupiter.api.Test;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.io.FileInputStream;

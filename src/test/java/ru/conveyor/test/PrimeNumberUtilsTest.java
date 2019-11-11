@@ -1,8 +1,9 @@
 package ru.conveyor.test;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ru.conveyor.util.PrimeNumberUtils;
 
 public class PrimeNumberUtilsTest {
@@ -17,12 +18,12 @@ public class PrimeNumberUtilsTest {
         //todo: что за слово такое resault?
         boolean resault = PrimeNumberUtils.isPrime(0);
         //todo: есть метод assertFalse/assertTrue
-        Assert.assertThat(false, CoreMatchers.is(resault));
+        MatcherAssert.assertThat(false, CoreMatchers.is(resault));
 
         resault = PrimeNumberUtils.isPrime(-5);
-        Assert.assertThat(false, CoreMatchers.is(resault));
+        MatcherAssert.assertThat(false, CoreMatchers.is(resault));
 
         //todo: почему тест падает на этой строчке?
-        Assert.assertTrue(PrimeNumberUtils.isPrime(2));
+        Assertions.assertTrue(PrimeNumberUtils.isPrime(2));
     }
 }

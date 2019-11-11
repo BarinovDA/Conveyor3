@@ -6,6 +6,7 @@ import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ComplexConveyor;
 import ru.conveyor.data.Conveyor;
+import ru.conveyor.data.PrimitiveArrayConveyor;
 import ru.conveyor.data.SimpleConveyor;
 import ru.conveyor.data.ThreadSafeConveyor;
 import ru.conveyor.util.PrimeNumberUtils;
@@ -40,6 +41,10 @@ public final class FactoryManager {
             case APACHE_TREE_LIST:
                 this.conveyorA = new ApacheTreeListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
                 this.conveyorB = new ApacheTreeListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
+                break;
+            case PRIMITIVE_ARRAY:
+                this.conveyorA = new PrimitiveArrayConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new PrimitiveArrayConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
             case THREAD_SAFE:
                 this.conveyorA = new ThreadSafeConveyor(config.getConveyorALength());
