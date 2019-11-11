@@ -63,36 +63,13 @@ public class SimpleConveyorTest {
         // Assert pushed value
         Assert.assertThat(statusConveyorB.get(0), CoreMatchers.is(19));
 
-        // InterSection verify
-        int lastIndexOfConveyorA = statusConveyorA.get(statusConveyorA.size() - 1);
-        int lastIndexOfConveyorB = statusConveyorB.get(statusConveyorB.size() - 1);
-
-        Assert.assertThat(lastIndexOfConveyorA, CoreMatchers.is(lastIndexOfConveyorB));
-
         // InterSection verify in middle
-        //todo: переделать после изменений
-        for (int i = 0; i < factoryConfig.getLengthOfCrossing(); i++) {
+        for (IntersectionPoint point : factoryConfig.getIntersectionPoints()) {
+            int valueA = factoryManager.getStatusConveyorA().get(point.getIntersectionForConveyorA());
+            int valueB = factoryManager.getStatusConveyorB().get(point.getIntersectionForConveyorB());
 
-            int intersectionIndexA = factoryConfig.getIntersectionA(i) - 1;
-            int intersectionIndexB = factoryConfig.getIntersectionB(i) - 1;
-
-            valueToBeReturned = factoryManager.getStatusConveyorA().get(intersectionIndexA);
-            returnedValue = factoryManager.getStatusConveyorB().get(intersectionIndexB);
-
-            Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
+            Assert.assertThat(valueA, CoreMatchers.is(valueB));
         }
-
-        //todo: это можно удалять
-/*
-        // Negative test not Prime namber
-        int notPrimeNumber = 2;
-        Assert.assertThat(notPrimeNumber, CoreMatchers.is(IllegalArgumentException));
-
-
-        // Push null
-        Assert.assertThat(null, CoreMatchers.is(IllegalArgumentException));
-*/
-
     }
 
     //todo: pooin?

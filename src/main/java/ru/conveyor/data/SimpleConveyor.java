@@ -1,5 +1,7 @@
 package ru.conveyor.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,61 +11,54 @@ import java.util.List;
 
 public class SimpleConveyor implements Conveyor {
 
-    public int length;
-    public LinkedList<Integer> list; //инициализировать в конструкторе
+    private LinkedList<Integer> queue;
+    private List<Integer> intersectionIndices;
 
-    public SimpleConveyor(int length) {
-        list = new LinkedList<>();
-        this.length = length;
+    public SimpleConveyor(int length, List<Integer> intersectionIndices) {
+        this.queue = new LinkedList<>();
+        this.intersectionIndices = new ArrayList<>(intersectionIndices);
+
+        // pre-fill with zeroes
+        for (int i = 0; i < length; i++) {
+            queue.add(0);
+        }
     }
 
-    public void add(int index) {
-        list.addFirst(index);
-    }
-
-    public int size() {
-        return list.size();
-    }
-
-    public void removeLast() {
-        list.removeLast();
-    }
-
-    public int get(int index) {
-        return list.get(index);
-    }
-
-    public void set(int index, int elem) {
-        list.set(index, elem);
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(list);
-    }
-
-    // todo: реализовать
     @Override
     public int pushValue(int value) {
-        return 0;
+        // add to head
+        queue.addFirst(value);
+
+        // delete and return tail
+        return queue.removeLast();
     }
 
-    // todo: реализовать
 
     @Override
     public List<Integer> getIntersectionValues() {
-        return null;
+        List<Integer> result = new ArrayList<>();
+
+        for (Integer intersectionIndex : intersectionIndices) {
+            result.add(queue.get(intersectionIndex));
+        }
+
+        return result;
     }
 
-    // todo: реализовать
     @Override
     public void updateIntersectionPoints(List<Integer> values) {
+        if (values.size() != intersectionIndices.size()) {
+            throw new IllegalArgumentException("Incoming values size should match config");
+        }
 
+        for (int i = 0; i < intersectionIndices.size(); i++) {
+            queue.set(intersectionIndices.get(i), values.get(i));
+        }
     }
 
-    //todo: реализовать
     @Override
     public List<Integer> getStatus() {
-        return null;
+        return Collections.unmodifiableList(queue);
     }
+
 }

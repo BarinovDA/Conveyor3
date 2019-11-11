@@ -3,6 +3,7 @@ package ru.conveyor.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 // todo: реализовать (как того требует задание) другой вариант работы конвеера
 //  проблема с уже реализованным конвееров в том, что он использует LinkedList
@@ -24,6 +25,7 @@ public class ComplexConveyor implements Conveyor {
         this.queue = new ArrayList<>(length);
         this.intersectionIndices = new ArrayList<>(intersectionIndices);
 
+        // pre-fill with zeroes
         for (int i = 0; i < length; i++) {
             queue.add(0);
         }
@@ -31,11 +33,16 @@ public class ComplexConveyor implements Conveyor {
 
     @Override
     public int pushValue(int value) {
+        // last element which will be dropped
         int result = queue.get(queue.size() - 1);
 
+        // move elements
         for (int i = queue.size() - 1; i > 0; i--) {
             queue.set(i, queue.get(i - 1));
         }
+
+        // add to head
+        queue.set(0, value);
 
         return result;
     }
@@ -44,9 +51,10 @@ public class ComplexConveyor implements Conveyor {
     public List<Integer> getIntersectionValues() {
         List<Integer> result = new ArrayList<>();
 
-        for (int i = 0; i < intersectionIndices.size(); i++) {
-            result.add(queue.get(intersectionIndices.get(i)));
+        for (Integer intersectionIndex : intersectionIndices) {
+            result.add(queue.get(intersectionIndex));
         }
+
         return result;
     }
 

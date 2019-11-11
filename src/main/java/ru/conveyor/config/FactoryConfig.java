@@ -4,41 +4,43 @@ import ru.conveyor.data.IntersectionPoint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 //сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
 // Добавить в конструктор конфига этот класс. В config.properties файле параметр уже есть.
 // Выбирать реализацию конвеера для работы исходя из этого параметра.
 public class FactoryConfig {
 
-    private List<IntersectionPoint> crossingIndex;
-    private int convAlength;
-    private int convBlength;
+    private List<IntersectionPoint> intersectionPoints;
+
+    private int conveyorALength;
+    private int conveyorBLength;
+
     private ConveyorType conveyorType;
+
+    public FactoryConfig(List<IntersectionPoint> intersectionPoints,
+                         int conveyorALength, int conveyorBLength,
+                         ConveyorType conveyorType) throws IllegalArgumentException {
+
+        validateParameters(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
+
+        this.intersectionPoints = new ArrayList<>(intersectionPoints);
+        this.conveyorALength = conveyorALength;
+        this.conveyorBLength = conveyorBLength;
+        this.conveyorType = conveyorType;
+    }
 
     public ConveyorType getConveyorType() {
         return conveyorType;
     }
 
-    public FactoryConfig(List<IntersectionPoint> intersectionPoints,
-                         int lenA, int lenB,
-                         ConveyorType conveyorType) throws IllegalArgumentException {
-
-        if (validateParameters(intersectionPoints, lenA, lenB, conveyorType)) {
-            crossingIndex = new ArrayList<>(intersectionPoints);
-            //crossingIndex.addAll(intersectionPoints); //лист можно сразу в конструкторе Arraylist передавать //это не понял
-            this.convAlength = lenA;
-            this.convBlength = lenB;
-            this.conveyorType = conveyorType;
-        } else {
-            throw new IllegalArgumentException("Point of intersection outside the length"); //надо текст ошибки передавать что именно не так с параметрами
-        }
+    public List<IntersectionPoint> getIntersectionPoints() {
+        return intersectionPoints;
     }
 
     public List<Integer> getIntersectionIndicesForA() {
         List<Integer> list = new ArrayList<>();
 
-        for (IntersectionPoint intersectionPoint : crossingIndex) {
+        for (IntersectionPoint intersectionPoint : intersectionPoints) {
             Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorA();
             list.add(intersectionForConveyorA);
         }
@@ -49,7 +51,7 @@ public class FactoryConfig {
     public List<Integer> getIntersectionIndicesForB() {
         List<Integer> list = new ArrayList<>();
 
-        for (IntersectionPoint intersectionPoint : crossingIndex) {
+        for (IntersectionPoint intersectionPoint : intersectionPoints) {
             Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorB();
             list.add(intersectionForConveyorA);
         }
@@ -58,32 +60,31 @@ public class FactoryConfig {
     }
 
     public int getIntersectionA(int i) {
-        return crossingIndex.get(i).getIntersectionForConveyorA();
+        return intersectionPoints.get(i).getIntersectionForConveyorA();
     }
 
     public int getIntersectionB(int i) {
-        return crossingIndex.get(i).getIntersectionForConveyorB();
+        return intersectionPoints.get(i).getIntersectionForConveyorB();
     }
 
     public int getLengthOfCrossing() {
-        return crossingIndex.size();
+        return intersectionPoints.size();
     }
 
-    public int getConvAlength() {
-        return convAlength;
+    public int getConveyorALength() {
+        return conveyorALength;
     }
 
-    public int getConvBlength() {
-        return convBlength;
+    public int getConveyorBLength() {
+        return conveyorBLength;
     }
 
 
-    private boolean validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
+    private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
         for (IntersectionPoint object : listOfIntersection) {
             if (object.getIntersectionForConveyorA() > lenA || object.getIntersectionForConveyorB() > lenB) {
-                return false;
+                throw new IllegalArgumentException("Invalid parameters");
             }
         }
-        return true;
     }
 }

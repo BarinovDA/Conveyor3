@@ -18,7 +18,7 @@ public class ComplexConveyorTest {
     @Test
     public void complexConveyorTest() {
         // Prepare factory manager
-        List<IntersectionPoint> crossingIndices = new LinkedList<IntersectionPoint>();
+        List<IntersectionPoint> crossingIndices = new LinkedList<>();
         crossingIndices.add(new IntersectionPoint(3, 4));
         crossingIndices.add(new IntersectionPoint(6, 8));
 
@@ -63,23 +63,12 @@ public class ComplexConveyorTest {
         // Assert pushed value
         Assert.assertThat(statusConveyorB.get(0), CoreMatchers.is(19));
 
-        // InterSection verify
-        int lastIndexOfConveyorA = statusConveyorA.get(statusConveyorA.size() - 1);
-        int lastIndexOfConveyorB = statusConveyorB.get(statusConveyorB.size() - 1);
-
-        Assert.assertThat(lastIndexOfConveyorA, CoreMatchers.is(lastIndexOfConveyorB));
-
         // InterSection verify in middle
-        for (int i = 0; i < factoryConfig.getLengthOfCrossing(); i++) {
+        for (IntersectionPoint point : factoryConfig.getIntersectionPoints()) {
+            int valueA = factoryManager.getStatusConveyorA().get(point.getIntersectionForConveyorA());
+            int valueB = factoryManager.getStatusConveyorB().get(point.getIntersectionForConveyorB());
 
-            int intersectionIndexA = factoryConfig.getIntersectionA(i) - 1;
-            int intersectionIndexB = factoryConfig.getIntersectionB(i) - 1;
-
-            valueToBeReturned = factoryManager.getStatusConveyorA().get(intersectionIndexA);
-            returnedValue = factoryManager.getStatusConveyorB().get(intersectionIndexB);
-
-            Assert.assertThat(returnedValue, CoreMatchers.is(valueToBeReturned));
+            Assert.assertThat(valueA, CoreMatchers.is(valueB));
         }
     }
-
 }

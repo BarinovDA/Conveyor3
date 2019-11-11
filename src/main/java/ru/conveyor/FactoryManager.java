@@ -1,6 +1,5 @@
 package ru.conveyor;
 
-import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ComplexConveyor;
 import ru.conveyor.data.Conveyor;
@@ -10,7 +9,6 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 public final class FactoryManager {
 
@@ -28,16 +26,16 @@ public final class FactoryManager {
 
         switch (config.getConveyorType()) {
             case SIMPLE:
-                this.conveyorA = new SimpleConveyor(config.getConvAlength());
-                this.conveyorB = new SimpleConveyor(config.getConvBlength());
+                this.conveyorA = new SimpleConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new SimpleConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
             case COMPLEX:
-                this.conveyorA = new ComplexConveyor(config.getConvAlength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new ComplexConveyor(config.getConvBlength(), config.getIntersectionIndicesForB());
+                this.conveyorA = new ComplexConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new ComplexConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
             case THREAD_SAFE:
-                this.conveyorA = new ThreadSafeConveyor(config.getConvAlength());
-                this.conveyorB = new ThreadSafeConveyor(config.getConvBlength());
+                this.conveyorA = new ThreadSafeConveyor(config.getConveyorALength());
+                this.conveyorB = new ThreadSafeConveyor(config.getConveyorBLength());
                 break;
                 default: throw new IllegalArgumentException("Unknown conveyor type");
         }
@@ -79,6 +77,10 @@ public final class FactoryManager {
         return Collections.unmodifiableList(conveyorB.getStatus());
     }
 
+    public FactoryConfig getConfig() {
+        return config;
+    }
+
     private void validateConveyorInput(int value) {
         if (!PrimeNumberUtils.isPrime(value)) {
             throw new IllegalArgumentException(value + " - is not a prime number!");
@@ -110,6 +112,7 @@ public final class FactoryManager {
         return numForReturn;
     }
 
+    // todo: это надо в тесты унести
     private void fillConveyor(Conveyor conveyor) {
         for (int i = 0; i < conveyor.getStatus().size(); i++) {
             //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
