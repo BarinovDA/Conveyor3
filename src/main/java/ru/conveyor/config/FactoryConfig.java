@@ -97,7 +97,7 @@ public class FactoryConfig {
             }
         }
     }
-
+    //ctrl+alt+l
     @Test
     private void getPropertiesValue() throws Exception {
         Properties properties = new Properties();
@@ -111,10 +111,10 @@ public class FactoryConfig {
         String semicolinDelimited = ";";
         String[] subStr = properties.getProperty("intersections").split(semicolinDelimited);
 
-        for (String str : subStr){
+        for (String str : subStr) {
             int a = Integer.valueOf(str.charAt(0));
             int b = Integer.valueOf(str.charAt(2));
-            intersectionPoints.add(new IntersectionPoint(a,b));
+            intersectionPoints.add(new IntersectionPoint(a, b));
         }
 
         fileInputStream.close();
