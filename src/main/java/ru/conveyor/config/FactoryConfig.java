@@ -1,6 +1,7 @@
 package ru.conveyor.config;
 
 import ru.conveyor.data.IntersectionPoint;
+import ru.conveyor.util.PropertiesReader;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -32,7 +33,13 @@ public class FactoryConfig {
     }
 
     public FactoryConfig() throws Exception {
-        getPropertiesValue();
+
+        FactoryConfig returnedConfig = PropertiesReader.getConfigFromProperties();
+        conveyorType = returnedConfig.getConveyorType();
+        conveyorALength = returnedConfig.getConveyorALength();
+        conveyorBLength = returnedConfig.getConveyorBLength();
+        intersectionPoints = new ArrayList<>(returnedConfig.getIntersectionPoints());
+
     }
 
     public ConveyorType getConveyorType() {
@@ -94,7 +101,8 @@ public class FactoryConfig {
     }
 
     //todo: дописать тест
-    private void getPropertiesValue() throws Exception {
+    //метод релоцированн в PropertiesReader
+   /* private void getPropertiesValue() throws Exception {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream("./../config.properties");
         properties.load(fileInputStream);
@@ -113,5 +121,5 @@ public class FactoryConfig {
         }
 
         fileInputStream.close();
-    }
+    }*/
 }
