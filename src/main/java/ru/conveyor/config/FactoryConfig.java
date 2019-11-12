@@ -1,9 +1,16 @@
 package ru.conveyor.config;
 
+import joptsimple.internal.Strings;
+import org.junit.jupiter.api.Test;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import ru.conveyor.data.IntersectionPoint;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 //сделать новый класс ConveyorType типа enum. В нём перечислить типы конвееров.
 // Добавить в конструктор конфига этот класс. В config.properties файле параметр уже есть.
@@ -27,6 +34,10 @@ public class FactoryConfig {
         this.conveyorALength = conveyorALength;
         this.conveyorBLength = conveyorBLength;
         this.conveyorType = conveyorType;
+    }
+
+    public FactoryConfig() throws Exception {
+        getPropertiesValue();
     }
 
     public ConveyorType getConveyorType() {
@@ -79,12 +90,33 @@ public class FactoryConfig {
         return conveyorBLength;
     }
 
-
     private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
         for (IntersectionPoint object : listOfIntersection) {
             if (object.getIntersectionForConveyorA() > lenA || object.getIntersectionForConveyorB() > lenB) {
                 throw new IllegalArgumentException("Invalid parameters");
             }
         }
+    }
+
+    @Test
+    private void getPropertiesValue() throws Exception {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream("./../config.properties");
+        properties.load(fileInputStream);
+
+        conveyorALength = Integer.valueOf(properties.getProperty("conveyors.a.length"));
+        conveyorBLength = Integer.valueOf(properties.getProperty("conveyors.b.length"));
+        conveyorType = ConveyorType.valueOf(properties.getProperty("conveyors.type"));
+
+        String semicolinDelimited = ";";
+        String[] subStr = properties.getProperty("intersections").split(semicolinDelimited);
+
+        for (String str : subStr){
+            int a = Integer.valueOf(str.charAt(0));
+            int b = Integer.valueOf(str.charAt(2));
+            intersectionPoints.add(new IntersectionPoint(a,b));
+        }
+
+        fileInputStream.close();
     }
 }
