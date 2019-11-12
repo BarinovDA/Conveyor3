@@ -1,13 +1,9 @@
 package ru.conveyor.config;
 
-import joptsimple.internal.Strings;
 import org.junit.jupiter.api.Test;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import ru.conveyor.data.IntersectionPoint;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -97,8 +93,8 @@ public class FactoryConfig {
             }
         }
     }
-    //ctrl+alt+l
-    @Test
+
+    //todo: дописать тест
     private void getPropertiesValue() throws Exception {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream("./../config.properties");

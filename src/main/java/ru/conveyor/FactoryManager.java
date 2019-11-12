@@ -1,5 +1,7 @@
 package ru.conveyor;
 
+import org.apache.commons.math3.primes.Primes;
+import org.apache.commons.math3.util.MathUtils;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ComplexConveyor;
@@ -10,6 +12,7 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public final class FactoryManager {
 
@@ -127,6 +130,7 @@ public final class FactoryManager {
 
             // случайное число от 1 до 100
             int randomNumber = (int) (Math.random() * 100);
+            //int rnd = Primes.nextPrime(1);
 
             //todo: доступ к филдам должны идти через геттеры
             conveyor.pushValue(primeNumbers.get(randomNumber));
