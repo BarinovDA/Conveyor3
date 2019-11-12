@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-//todo: реализовать класс который будет парсить конфиг из файла /resources/config.properties
+// реализовать класс который будет парсить конфиг из файла /resources/config.properties
 public class PropertiesReader {
 
     public static FactoryConfig getConfigFromProperties() throws Exception{
