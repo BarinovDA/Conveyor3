@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import ru.conveyor.FactoryManager;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.util.LinkedList;

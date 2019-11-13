@@ -68,7 +68,6 @@ public class FactoryConfig {
     }
 
     public FactoryConfig() throws Exception {
-
         FactoryConfig returnedConfig = PropertiesReader.getConfigFromProperties();
         conveyorType = returnedConfig.getConveyorType();
         conveyorALength = returnedConfig.getConveyorALength();

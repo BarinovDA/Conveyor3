@@ -1,40 +1,45 @@
 package ru.conveyor.util;
 
-
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.IntersectionPoint;
+import sun.misc.Unsafe;
 
 import java.io.FileInputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-// реализовать класс который будет парсить конфиг из файла /resources/config.properties
 public class PropertiesReader {
 
-    public static FactoryConfig getConfigFromProperties() throws Exception{
+    private static final String CONFIG_FILE = "config.properties";
 
-        Properties properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream("./../config.properties");
-        properties.load(fileInputStream);
+    private static final String CONVEYORS_A_LENGTH = "conveyors.a.length";
+    private static final String CONVEYORS_B_LENGTH = "conveyors.b.length";
 
-        int conveyorALength = Integer.valueOf(properties.getProperty("conveyors.a.length"));
-        int conveyorBLength = Integer.valueOf(properties.getProperty("conveyors.b.length"));
-        ConveyorType conveyorType = ConveyorType.valueOf(properties.getProperty("conveyors.type"));
+    private static final String CONVEYORS_TYPE = "conveyors.type";
+    private static final String INTERSECTIONS = "intersections";
 
-        String semicolinDelimited = ";";
-        String[] subStr = properties.getProperty("intersections").split(semicolinDelimited);
-        List<IntersectionPoint> intersectionPoints =  new LinkedList<>();
-        for (String str : subStr) {
-            int a = Integer.valueOf(str.charAt(0));
-            int b = Integer.valueOf(str.charAt(2));
-            intersectionPoints.add(new IntersectionPoint(a, b));
+    private static final String SEMICOLON_DELIMITER = ";";
+
+    public static FactoryConfig getConfigFromProperties() throws Exception {
+        Properties properties = PropertiesLoaderUtils.loadAllProperties(CONFIG_FILE);
+
+        int conveyorALength = Integer.valueOf(properties.getProperty(CONVEYORS_A_LENGTH));
+        int conveyorBLength = Integer.valueOf(properties.getProperty(CONVEYORS_B_LENGTH));
+        ConveyorType conveyorType = ConveyorType.valueOf(properties.getProperty(CONVEYORS_TYPE));
+
+        List<IntersectionPoint> intersectionPoints = new ArrayList<>();
+
+        for (String str : properties.getProperty(INTERSECTIONS).split(SEMICOLON_DELIMITER)) {
+            int indexA = Integer.parseInt(String.valueOf(str.charAt(0)));
+            int indexB = Integer.parseInt(String.valueOf(str.charAt(2)));
+
+            intersectionPoints.add(new IntersectionPoint(indexA, indexB));
         }
 
-        FactoryConfig factoryConfig = new FactoryConfig(intersectionPoints, conveyorALength,
-                                                           conveyorBLength, conveyorType);
-        fileInputStream.close();
-        return factoryConfig;
+        return new FactoryConfig(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
     }
 }
