@@ -1,10 +1,8 @@
 package ru.conveyor.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 // todo: реализовать (как того требует задание) другой вариант работы конвеера
 //  проблема с уже реализованным конвееров в том, что он использует LinkedList
@@ -17,12 +15,12 @@ import java.util.stream.IntStream;
 
 // todo: Здесь нужно воспользовать другой структурой данных (не LinkedList, не ArrayList),
 //  более оптимальной с точки зрения поиска элементов по индексу и быстрой вставкой в голову и в хвост.
-public class ComplexConveyor implements Conveyor {
+public class ArrayListConveyor implements Conveyor {
 
     private List<Integer> queue;
     private List<Integer> intersectionIndices;
 
-    public ComplexConveyor(int length, List<Integer> intersectionIndices) {
+    public ArrayListConveyor(int length, List<Integer> intersectionIndices) {
         this.queue = new ArrayList<>(length);
         this.intersectionIndices = new ArrayList<>(intersectionIndices);
 

@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.conveyor.FactoryManager;
 import ru.conveyor.api.dto.NewConveyorValueDto;
+import ru.conveyor.service.FactoryService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
 @RestController
 public class FactoryController {
 
-    private final FactoryManager factoryManager;
+    private final FactoryService factoryManager;
 
-    public FactoryController(FactoryManager factoryManager) {
+    public FactoryController(FactoryService factoryManager) {
         this.factoryManager = factoryManager;
     }
 

@@ -9,11 +9,10 @@ import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
-import ru.conveyor.FactoryManager;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
-import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.IntersectionPoint;
+import ru.conveyor.service.FactoryService;
 import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.LinkedList;
@@ -39,11 +38,11 @@ public class ConveyorPerformanceTest {
         if (conveyorType == ConveyorType.THREAD_SAFE) {
             return; // todo: not implemented yet
         }
-        FactoryManager factoryManager = prepareFactory(conveyorType);
+        FactoryService factoryManager = prepareFactory(conveyorType);
         startFactoryLoad(factoryManager);
     }
 
-    private FactoryManager prepareFactory(ConveyorType conveyorType) {
+    private FactoryService prepareFactory(ConveyorType conveyorType) {
         List<IntersectionPoint> crossingIndices = new LinkedList<>();
 
         for (int i = 20; i < 1000; i += 20) {
@@ -52,7 +51,7 @@ public class ConveyorPerformanceTest {
 
         FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType) ;
 
-        FactoryManager factoryManager = new FactoryManager(factoryConfig);
+        FactoryService factoryManager = new FactoryService(factoryConfig);
 
         // Start factory
         factoryManager.startFactory();
@@ -60,7 +59,7 @@ public class ConveyorPerformanceTest {
         return factoryManager;
     }
 
-    private void startFactoryLoad(FactoryManager factoryManager) {
+    private void startFactoryLoad(FactoryService factoryManager) {
         List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
 
         Random random = new Random();

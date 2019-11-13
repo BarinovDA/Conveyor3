@@ -9,12 +9,12 @@ import java.util.List;
 // public доступ не подходит.
 // конвеер это внутренняя кухня для FactoryManager доступа извне быть не должно
 
-public class SimpleConveyor implements Conveyor {
+public class LinkedListConveyor implements Conveyor {
 
     private LinkedList<Integer> queue;
     private List<Integer> intersectionIndices;
 
-    public SimpleConveyor(int length, List<Integer> intersectionIndices) {
+    public LinkedListConveyor(int length, List<Integer> intersectionIndices) {
         this.queue = new LinkedList<>();
         this.intersectionIndices = new ArrayList<>(intersectionIndices);
 

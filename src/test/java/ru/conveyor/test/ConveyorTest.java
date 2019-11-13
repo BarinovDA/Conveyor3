@@ -4,11 +4,10 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import ru.conveyor.FactoryManager;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
-import ru.conveyor.data.Conveyor;
 import ru.conveyor.data.IntersectionPoint;
+import ru.conveyor.service.FactoryService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ConveyorTest {
 
         FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 9, 15, conveyorType);
 
-        FactoryManager factoryManager = new FactoryManager(factoryConfig);
+        FactoryService factoryManager = new FactoryService(factoryConfig);
 
         // Start factory
         factoryManager.startFactory();

@@ -2,7 +2,6 @@ package ru.conveyor.test;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.conveyor.config.ConveyorType;
@@ -10,7 +9,6 @@ import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ConfigPropertiesTest {
@@ -31,7 +29,7 @@ public class ConfigPropertiesTest {
         MatcherAssert.assertThat(conveyorBlen, CoreMatchers.is(6));
 
         //check type of conveyor
-        MatcherAssert.assertThat(conveyorType, CoreMatchers.is(ConveyorType.SIMPLE));
+        MatcherAssert.assertThat(conveyorType, CoreMatchers.is(ConveyorType.LINKED_LIST));
 
         // Check intersection points exist
         Assertions.assertFalse(intersectionPoints.isEmpty());

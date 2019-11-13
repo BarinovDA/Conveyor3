@@ -1,12 +1,13 @@
-package ru.conveyor;
+package ru.conveyor.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
-import ru.conveyor.data.ComplexConveyor;
+import ru.conveyor.data.ArrayListConveyor;
 import ru.conveyor.data.Conveyor;
+import ru.conveyor.data.LinkedListConveyor;
 import ru.conveyor.data.PrimitiveArrayConveyor;
-import ru.conveyor.data.SimpleConveyor;
 import ru.conveyor.data.ThreadSafeConveyor;
 import ru.conveyor.util.PrimeNumberUtils;
 
@@ -14,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public final class FactoryManager {
+public final class FactoryService {
 
     private final FactoryConfig config;
 
@@ -23,19 +24,18 @@ public final class FactoryManager {
 
     private List<Integer> primeNumbers;
 
-    //todo: перегрузить конструктор, во втором случае не принимать аргументов.
-    // Если аргументы не были переданы использовать класс PropertiesReader и читать конфиг из файла
-    public FactoryManager(FactoryConfig config) {
+    @Autowired
+    public FactoryService(FactoryConfig config) {
         this.config = config;
 
         switch (config.getConveyorType()) {
-            case SIMPLE:
-                this.conveyorA = new SimpleConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new SimpleConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
+            case LINKED_LIST:
+                this.conveyorA = new LinkedListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new LinkedListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
-            case COMPLEX:
-                this.conveyorA = new ComplexConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new ComplexConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
+            case ARRAY_LIST:
+                this.conveyorA = new ArrayListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
+                this.conveyorB = new ArrayListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
                 break;
             case APACHE_TREE_LIST:
                 this.conveyorA = new ApacheTreeListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
@@ -52,11 +52,6 @@ public final class FactoryManager {
             default: throw new IllegalArgumentException("Unknown conveyor type");
         }
     }
-
-   /* public FactoryManager() {
-        //Properties properties = new Properties();
-
-    }*/
 
     public void startFactory() {
         primeNumbers = PrimeNumberUtils.generatePrimeNumber();
@@ -103,23 +98,6 @@ public final class FactoryManager {
         int numForReturn = conveyorToPush.pushValue(num);
 
         conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
-
-        // todo: вся эта логика должна быть внутри класса конвеера
-        //crossing
-//        int convLength = config.getLengthOfCrossing();
-//        if (conveyorToPush == conveyorA) {
-//            for (int i = 0; i < convLength; i++) {
-//                conveyorToUpdate.set(config.getIntersectionB(i) - 1, conveyorToPush.get(config.getIntersectionA(i) - 1));
-//            }
-//        } else {
-//            for (int i = 0; i < convLength; i++) {
-//                conveyorToUpdate.set(config.getIntersectionA(i) - 1, conveyorToPush.get(config.getIntersectionB(i) - 1));
-//            }
-//        }
-//
-//        //last crossing
-//        conveyorToPush.removeLast();
-//        conveyorToUpdate.set(conveyorToUpdate.length - 1, conveyorToPush.get(conveyorToPush.length - 1));
 
         return numForReturn;
     }
