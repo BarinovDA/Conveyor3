@@ -2,6 +2,7 @@ package ru.conveyor.test;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.conveyor.config.ConveyorType;
@@ -9,13 +10,16 @@ import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConfigPropertiesTest {
 
     @Test
     public void configPropertiesTest() throws Exception {
+        //config test
         FactoryConfig factoryConfig = new FactoryConfig();
+        //MatcherAssert.assertThat(factoryConfig, CoreMatchers.is(factoryConfigWrite));
 
         int conveyorAlen = factoryConfig.getConveyorALength();
         int conveyorBlen = factoryConfig.getConveyorBLength();
