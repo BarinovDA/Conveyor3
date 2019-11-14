@@ -3,18 +3,22 @@ package ru.conveyor.test;
 import net.bytebuddy.build.Plugin;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.util.PropertiesReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConveyorConfigTest {
+    @Test
     public void configPropertiesTest() throws Exception {
-
+        //config test
         FactoryConfig factoryConfig = new FactoryConfig();
+        //MatcherAssert.assertThat(factoryConfig, CoreMatchers.is(factoryConfigWrite));
 
         int conveyorAlen = factoryConfig.getConveyorALength();
         int conveyorBlen = factoryConfig.getConveyorBLength();

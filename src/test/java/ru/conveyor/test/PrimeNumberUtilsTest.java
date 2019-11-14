@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.conveyor.util.PrimeNumberUtils;
 
+import javax.validation.constraints.AssertTrue;
+
+import static org.junit.jupiter.api.AssertTrue.assertTrue;
+
 public class PrimeNumberUtilsTest {
 
     //todo: где аннотация @Test? Почему тут только негативные сценарии?
@@ -15,15 +19,13 @@ public class PrimeNumberUtilsTest {
     public void testUtils (){
 
         // test PrimeNumbersUtils.isPrime
-        //todo: что за слово такое resault?
-        boolean resault = PrimeNumberUtils.isPrime(0);
+        boolean result = PrimeNumberUtils.isPrime(0);
         //todo: есть метод assertFalse/assertTrue
-        MatcherAssert.assertThat(false, CoreMatchers.is(resault));
+        //MatcherAssert.assertFalse();
+        MatcherAssert.assertThat(false, CoreMatchers.is(result));
+        result = PrimeNumberUtils.isPrime(-5);
+        MatcherAssert.assertThat(false, CoreMatchers.is(result));
 
-        resault = PrimeNumberUtils.isPrime(-5);
-        MatcherAssert.assertThat(false, CoreMatchers.is(resault));
-
-        //todo: почему тест падает на этой строчке?
         Assertions.assertTrue(PrimeNumberUtils.isPrime(2));
     }
 }
