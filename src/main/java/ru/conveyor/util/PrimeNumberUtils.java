@@ -12,13 +12,17 @@ public class PrimeNumberUtils {
     public static List<Integer> generatePrimeNumber() {
         List<Integer> list = new ArrayList<>();
 
-        int lastPrime = Primes.nextPrime(3);
+        int lastPrime;
 
         // до 600 потому, опытным путем подобранно, для создания Листа на ~ 100 эл-ов
         // Primes.nextPrime(...) в аргументах передавать предыдущее сгенерированное простое число
         for (int i = 3; i <= 600; i += 2) {
-            lastPrime = Primes.nextPrime(lastPrime);
+            lastPrime = Primes.nextPrime(i);
             list.add(lastPrime);
+
+            if (list.size() == 108) {
+                break;
+            }
         }
         return list;
     }

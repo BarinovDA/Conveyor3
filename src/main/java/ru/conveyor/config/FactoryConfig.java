@@ -43,8 +43,15 @@ public class FactoryConfig {
         this.prefillConveyors = prefillConveyors;
     }
 
-    public FactoryConfig() throws Exception {
-        FactoryConfig returnedConfig = PropertiesReader.getConfigFromProperties();
+    public FactoryConfig() {
+        FactoryConfig returnedConfig = null;
+        try {
+            returnedConfig = PropertiesReader.getConfigFromProperties();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         conveyorType = returnedConfig.getConveyorType();
         conveyorALength = returnedConfig.getConveyorALength();
         conveyorBLength = returnedConfig.getConveyorBLength();
@@ -64,7 +71,7 @@ public class FactoryConfig {
         List<Integer> list = new ArrayList<>();
 
         for (IntersectionPoint intersectionPoint : intersectionPoints) {
-            Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorA();
+            Integer intersectionForConveyorA = intersectionPoint.getIndexA();
             list.add(intersectionForConveyorA);
         }
 
@@ -75,12 +82,13 @@ public class FactoryConfig {
         List<Integer> list = new ArrayList<>();
 
         for (IntersectionPoint intersectionPoint : intersectionPoints) {
-            Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorB();
+            Integer intersectionForConveyorA = intersectionPoint.getIndexB();
             list.add(intersectionForConveyorA);
         }
 
         return list;
     }
+
     public int getConveyorALength() {
         return conveyorALength;
     }
@@ -91,7 +99,7 @@ public class FactoryConfig {
 
     private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
         for (IntersectionPoint object : listOfIntersection) {
-            if (object.getIntersectionForConveyorA() > lenA || object.getIntersectionForConveyorB() > lenB) {
+            if (object.getIndexA() > lenA || object.getIndexB() > lenB) {
                 throw new IllegalArgumentException("Invalid parameters");
             }
         }

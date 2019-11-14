@@ -2,6 +2,7 @@ package ru.conveyor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.conveyor.api.dto.FactoryStatusDto;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ArrayListConveyor;
@@ -13,6 +14,7 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public final class FactoryService {
@@ -67,8 +69,8 @@ public final class FactoryService {
     //todo: метод должен реализовать следующее (согласно требованиям)
     // 3.Получение состояния всей системы: очередей, точек пересечения.
     //
-    public Object getFactoryStatus() {
-        return null; //todo: добавить отдельный класс представление, чтоб в нем был конфиг + оба конвеера
+    public FactoryStatusDto getFactoryStatus() {
+        return new FactoryStatusDto(config, conveyorA.getStatus(), conveyorB.getStatus());
     }
 
     public int pushA(int value) throws IllegalArgumentException {
@@ -105,6 +107,20 @@ public final class FactoryService {
         conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
 
         return numForReturn;
+    }
+
+    // todo: это надо в тесты унести
+    private void fillConveyor(Conveyor conveyor) {
+        for (int i = 0; i < conveyor.getStatus().size(); i++) {
+
+            // случайное число от 1 до 100
+            Random r = new Random();
+            int low = 1;
+            int high = 100;
+            int result = r.nextInt(high-low) + low;
+
+            conveyor.pushValue(primeNumbers.get(result));
+        }
     }
 
 }
