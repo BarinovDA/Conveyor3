@@ -56,12 +56,17 @@ public final class FactoryService {
         if (config.isPrefillConveyors()) {
             List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
 
-            for (int i = 0; i <  conveyorA.getStatus().size(); i++) {
-                conveyorA.pushValue(primes.get((int) (Math.random() * 100)));
+            // случайное число от 1 до 100
+            Random r = new Random();
+            int low = 1;
+            int high = 100;
+
+            for (int i = 0; i < conveyorA.getStatus().size(); i++) {
+                conveyorA.pushValue(primes.get(r.nextInt(high - low) + low));
             }
 
             for (int i = 0; i < conveyorB.getStatus().size(); i++) {
-                conveyorB.pushValue(primes.get((int) (Math.random() * 100)));
+                conveyorB.pushValue(primes.get(r.nextInt(high - low) + low));
             }
         }
     }
@@ -107,20 +112,6 @@ public final class FactoryService {
         conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
 
         return numForReturn;
-    }
-
-    // todo: это надо в тесты унести
-    private void fillConveyor(Conveyor conveyor) {
-        for (int i = 0; i < conveyor.getStatus().size(); i++) {
-
-            // случайное число от 1 до 100
-            Random r = new Random();
-            int low = 1;
-            int high = 100;
-            int result = r.nextInt(high-low) + low;
-
-            conveyor.pushValue(primeNumbers.get(result));
-        }
     }
 
 }
