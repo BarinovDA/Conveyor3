@@ -14,6 +14,7 @@ import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public final class FactoryService {
@@ -52,6 +53,8 @@ public final class FactoryService {
                 break;
             default: throw new IllegalArgumentException("Unknown conveyor type");
         }
+
+        startFactory();
     }
 
     public void startFactory() {
@@ -63,8 +66,8 @@ public final class FactoryService {
     //todo: метод должен реализовать следующее (согласно требованиям)
     // 3.Получение состояния всей системы: очередей, точек пересечения.
     //
-    public FactoryStatusDto getFactoryStatus() throws Exception {
-        return new FactoryStatusDto(); //todo: добавить отдельный класс представление, чтоб в нем был конфиг + оба конвеера
+    public FactoryStatusDto getFactoryStatus() {
+        return new FactoryStatusDto(config, conveyorA.getStatus(), conveyorB.getStatus());
     }
 
     public int pushA(int value) throws IllegalArgumentException {
@@ -106,17 +109,14 @@ public final class FactoryService {
     // todo: это надо в тесты унести
     private void fillConveyor(Conveyor conveyor) {
         for (int i = 0; i < conveyor.getStatus().size(); i++) {
-            //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
-            // коммент нужен не что там, а зачем это там и какую нагрузку несёт.
-            // Например, "Getting random prime number from pre-filled collection size of 100'
-            // названия переменных меньше чем из 3 букв не принимаются по всем конвенциям
 
             // случайное число от 1 до 100
-            int randomNumber = (int) (Math.random() * 100);
-            //int rnd = Primes.nextPrime(1);
+            Random r = new Random();
+            int low = 1;
+            int high = 100;
+            int result = r.nextInt(high-low) + low;
 
-            //todo: доступ к филдам должны идти через геттеры
-            conveyor.pushValue(primeNumbers.get(randomNumber));
+            conveyor.pushValue(primeNumbers.get(result));
         }
     }
 

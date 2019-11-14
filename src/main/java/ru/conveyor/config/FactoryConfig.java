@@ -1,13 +1,13 @@
 package ru.conveyor.config;
 
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.beans.factory.annotation.Value;
-        import org.springframework.context.annotation.Configuration;
-        import ru.conveyor.data.IntersectionPoint;
-        import ru.conveyor.util.PropertiesReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import ru.conveyor.data.IntersectionPoint;
+import ru.conveyor.util.PropertiesReader;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class FactoryConfig {
@@ -21,14 +21,14 @@ public class FactoryConfig {
 
     @Autowired
     public FactoryConfig(
-            @Value(value = "#{T(ru.conveyor.util.PropertiesParser).parseIntersectionPoints('${intersections}')}")
-                    List<IntersectionPoint> intersectionPoints,
-            @Value(value = "${conveyors.a.length}")
-                    int conveyorALength,
-            @Value(value = "${conveyors.b.length}")
-                    int conveyorBLength,
-            @Value(value = "${conveyors.type}")
-                    ConveyorType conveyorType) throws IllegalArgumentException {
+        @Value(value = "#{T(ru.conveyor.util.PropertiesParser).parseIntersectionPoints('${intersections}')}")
+            List<IntersectionPoint> intersectionPoints,
+        @Value(value = "${conveyors.a.length}")
+            int conveyorALength,
+        @Value(value = "${conveyors.b.length}")
+            int conveyorBLength,
+        @Value(value = "${conveyors.type}")
+            ConveyorType conveyorType) throws IllegalArgumentException {
 
         validateParameters(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
 
@@ -38,8 +38,15 @@ public class FactoryConfig {
         this.conveyorType = conveyorType;
     }
 
-    public FactoryConfig() throws Exception {
-        FactoryConfig returnedConfig = PropertiesReader.getConfigFromProperties();
+    public FactoryConfig() {
+        FactoryConfig returnedConfig = null;
+        try {
+            returnedConfig = PropertiesReader.getConfigFromProperties();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         conveyorType = returnedConfig.getConveyorType();
         conveyorALength = returnedConfig.getConveyorALength();
         conveyorBLength = returnedConfig.getConveyorBLength();
@@ -59,7 +66,7 @@ public class FactoryConfig {
         List<Integer> list = new ArrayList<>();
 
         for (IntersectionPoint intersectionPoint : intersectionPoints) {
-            Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorA();
+            Integer intersectionForConveyorA = intersectionPoint.getIndexA();
             list.add(intersectionForConveyorA);
         }
 
@@ -70,7 +77,7 @@ public class FactoryConfig {
         List<Integer> list = new ArrayList<>();
 
         for (IntersectionPoint intersectionPoint : intersectionPoints) {
-            Integer intersectionForConveyorA = intersectionPoint.getIntersectionForConveyorB();
+            Integer intersectionForConveyorA = intersectionPoint.getIndexB();
             list.add(intersectionForConveyorA);
         }
 
@@ -87,7 +94,7 @@ public class FactoryConfig {
 
     private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
         for (IntersectionPoint object : listOfIntersection) {
-            if (object.getIntersectionForConveyorA() > lenA || object.getIntersectionForConveyorB() > lenB) {
+            if (object.getIndexA() > lenA || object.getIndexB() > lenB) {
                 throw new IllegalArgumentException("Invalid parameters");
             }
         }

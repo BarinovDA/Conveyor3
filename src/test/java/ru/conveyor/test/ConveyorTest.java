@@ -69,8 +69,8 @@ public class ConveyorTest {
 
         // InterSection verification
         for (IntersectionPoint point : factoryConfig.getIntersectionPoints()) {
-            int valueA = factoryManager.getStatusConveyorA().get(point.getIntersectionForConveyorA());
-            int valueB = factoryManager.getStatusConveyorB().get(point.getIntersectionForConveyorB());
+            int valueA = factoryManager.getStatusConveyorA().get(point.getIndexA());
+            int valueB = factoryManager.getStatusConveyorB().get(point.getIndexB());
 
             MatcherAssert.assertThat(valueA, CoreMatchers.is(valueB));
         }
