@@ -1,13 +1,13 @@
 package ru.conveyor.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import ru.conveyor.data.IntersectionPoint;
-import ru.conveyor.util.PropertiesReader;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.beans.factory.annotation.Value;
+        import org.springframework.context.annotation.Configuration;
+        import ru.conveyor.data.IntersectionPoint;
+        import ru.conveyor.util.PropertiesReader;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 @Configuration
 public class FactoryConfig {
@@ -21,14 +21,14 @@ public class FactoryConfig {
 
     @Autowired
     public FactoryConfig(
-        @Value(value = "#{T(ru.conveyor.util.PropertiesParser).parseIntersectionPoints('${intersections}')}")
-            List<IntersectionPoint> intersectionPoints,
-        @Value(value = "${conveyors.a.length}")
-            int conveyorALength,
-        @Value(value = "${conveyors.b.length}")
-            int conveyorBLength,
-        @Value(value = "${conveyors.type}")
-            ConveyorType conveyorType) throws IllegalArgumentException {
+            @Value(value = "#{T(ru.conveyor.util.PropertiesParser).parseIntersectionPoints('${intersections}')}")
+                    List<IntersectionPoint> intersectionPoints,
+            @Value(value = "${conveyors.a.length}")
+                    int conveyorALength,
+            @Value(value = "${conveyors.b.length}")
+                    int conveyorBLength,
+            @Value(value = "${conveyors.type}")
+                    ConveyorType conveyorType) throws IllegalArgumentException {
 
         validateParameters(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
 
@@ -76,6 +76,7 @@ public class FactoryConfig {
 
         return list;
     }
+
     public int getConveyorALength() {
         return conveyorALength;
     }

@@ -2,6 +2,7 @@ package ru.conveyor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.conveyor.api.dto.FactoryStatusDto;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.ApacheTreeListConveyor;
 import ru.conveyor.data.ArrayListConveyor;
@@ -62,8 +63,8 @@ public final class FactoryService {
     //todo: метод должен реализовать следующее (согласно требованиям)
     // 3.Получение состояния всей системы: очередей, точек пересечения.
     //
-    public Object getFactoryStatus() {
-        return null; //todo: добавить отдельный класс представление, чтоб в нем был конфиг + оба конвеера
+    public FactoryStatusDto getFactoryStatus() throws Exception {
+        return new FactoryStatusDto(); //todo: добавить отдельный класс представление, чтоб в нем был конфиг + оба конвеера
     }
 
     public int pushA(int value) throws IllegalArgumentException {
