@@ -1,36 +1,48 @@
 package ru.conveyor.data.conveyor.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-
-// todo: здесь будет потокобезопасная реализация конвеера,
-//  одновременные вызовы pushA/pushB/getStatusA/getStatusB методов должны быть потокобезопасные
-//  делать в конце
 public class ThreadSafeConveyor extends AbstractConveyor {
 
-    public ThreadSafeConveyor() {
+    private List<Integer> queue;
 
+    public ThreadSafeConveyor() {
+        this.queue = Collections.synchronizedList(new ArrayList<>(length));
     }
 
-    // todo: реализовать
     @Override
     public int pushValue(int value) {
-        return 0;
+        queue.add(0, value);
+        return queue.remove(queue.size() - 1);
     }
 
     @Override
     public List<Integer> getIntersectionValues() {
-        return null;
+        List<Integer> result = new ArrayList<>();
+
+        for (Integer intersectionIndex : intersectionIndices) {
+            result.add(queue.get(intersectionIndex));
+        }
+
+        return result;
     }
 
     @Override
     public void updateIntersectionPoints(List<Integer> values) {
+        if (values.size() != intersectionIndices.size()) {
+            throw new IllegalArgumentException("Incoming values size should match config");
+        }
 
+        for (int i = 0; i < intersectionIndices.size(); i++) {
+            queue.set(intersectionIndices.get(i), values.get(i));
+        }
     }
 
     //todo: реализовать
     @Override
     public List<Integer> getStatus() {
-        return null;
+        return Collections.unmodifiableList(queue);
     }
 }

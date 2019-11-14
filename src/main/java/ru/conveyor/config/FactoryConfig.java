@@ -3,7 +3,6 @@ package ru.conveyor.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.CollectionUtils;
 import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.util.PropertiesReader;
@@ -99,21 +98,26 @@ public class FactoryConfig {
         return conveyorBLength;
     }
 
-    private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
-
-        if (lenA <= 0 || lenB <= 0) throw new IllegalArgumentException("Negative length of conveyor");
-        if (CollectionUtils.isEmpty(listOfIntersection)) {
-            throw new IllegalArgumentException("Invalid parameters");
-        }
-        for (IntersectionPoint object : listOfIntersection) {
-            if (object == null) throw new IllegalArgumentException("Invalid parameters");
-            if ((object.getIndexA() > lenA) || (object.getIndexB() > lenB) || (object.getIndexA() < 0) || (object.getIndexB() < 0)) {
-                throw new IllegalArgumentException("Invalid parameters");
-            }
-        }
-    }
-
     public boolean isPrefillConveyors() {
         return prefillConveyors;
+    }
+
+    private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
+        if (lenA <= 0 || lenB <= 0) {
+            throw new IllegalArgumentException("Negative length of conveyor. LenA:" + lenA + ". Len B:" + lenB);
+        }
+
+        for (IntersectionPoint point : listOfIntersection) {
+            if (point == null) {
+                throw new IllegalArgumentException("IntersectionPoint cannot be null");
+            }
+
+            if (point.getIndexA() > lenA ||
+                point.getIndexB() > lenB ||
+                point.getIndexA() < 0 ||
+                point.getIndexB() < 0) {
+                throw new IllegalArgumentException("Invalid IntersectionPoint: " + point);
+            }
+        }
     }
 }

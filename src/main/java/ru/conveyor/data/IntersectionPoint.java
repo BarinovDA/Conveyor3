@@ -22,4 +22,12 @@ public class IntersectionPoint {
     public int getIndexB() {
         return indexB;
     }
+
+    @Override
+    public String toString() {
+        return "IntersectionPoint{" +
+            "indexA=" + indexA +
+            ", indexB=" + indexB +
+            '}';
+    }
 }

@@ -93,8 +93,8 @@ public class ConveyorNegativeTest {
 
         // Negative case null variables
         try {
-            new FactoryService(new FactoryConfig(Arrays.asList(null), 5, 5, ConveyorType.LINKED_LIST, false));
-        } catch (NullPointerException exception) {
+            new FactoryService(new FactoryConfig(null, 5, 5, ConveyorType.LINKED_LIST, false));
+        } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
 
