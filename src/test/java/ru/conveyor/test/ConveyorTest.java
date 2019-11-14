@@ -26,12 +26,9 @@ public class ConveyorTest {
         crossingIndices.add(new IntersectionPoint(3, 4));
         crossingIndices.add(new IntersectionPoint(6, 8));
 
-        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 9, 15, conveyorType);
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 9, 15, conveyorType, true);
 
         FactoryService factoryManager = new FactoryService(factoryConfig);
-
-        // Start factory
-        factoryManager.startFactory();
 
         // Get Conveyors status
         List<Integer> statusConveyorA = factoryManager.getStatusConveyorA();

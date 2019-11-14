@@ -23,7 +23,7 @@ public class ConveyorNegativeTest {
             crossingIndices.add(new IntersectionPoint(3, 4));
             crossingIndices.add(new IntersectionPoint(6, 8));
 
-            new FactoryConfig(crossingIndices, 3, 2, ConveyorType.LINKED_LIST);
+            new FactoryConfig(crossingIndices, 3, 2, ConveyorType.LINKED_LIST, false);
         });
     }
 
@@ -36,11 +36,8 @@ public class ConveyorNegativeTest {
             crossingIndices.add(new IntersectionPoint(3, 4));
             crossingIndices.add(new IntersectionPoint(6, 8));
 
-            FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12, ConveyorType.LINKED_LIST);
+            FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12, ConveyorType.LINKED_LIST, false);
             FactoryService factoryManager = new FactoryService(factoryConfig);
-
-            // Start factory
-            factoryManager.startFactory();
 
             //todo: у тебя до строчки pushB(-10) тест никогда не доходит
             factoryManager.pushA(-1);// не уверен то так можно
@@ -56,11 +53,9 @@ public class ConveyorNegativeTest {
             crossingIndices.add(new IntersectionPoint(3, 4));
             crossingIndices.add(new IntersectionPoint(6, 8));
 
-            FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12, ConveyorType.LINKED_LIST);
+            FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, 10, 12, ConveyorType.LINKED_LIST, false);
             FactoryService factoryManager = new FactoryService(factoryConfig);
 
-            // Start factory
-            factoryManager.startFactory();
             //todo: предыдущие подготовительные строки дублируются из теста в тест
             // вынести в отдельный метод prepareFactory() который вернёт конфиг
 
@@ -76,7 +71,7 @@ public class ConveyorNegativeTest {
 
         // Negative case Length A
         try {
-            new FactoryService(new FactoryConfig(Collections.emptyList(), -5, 5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(Collections.emptyList(), -5, 5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
@@ -86,7 +81,7 @@ public class ConveyorNegativeTest {
 
         // Negative case Length B
         try {
-            new FactoryService(new FactoryConfig(Collections.emptyList(), 5, -5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(Collections.emptyList(), 5, -5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
@@ -97,7 +92,7 @@ public class ConveyorNegativeTest {
 
         // Negative case null variables
         try {
-            new FactoryService(new FactoryConfig(Arrays.asList(null), 5, 5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(Arrays.asList(null), 5, 5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
@@ -109,7 +104,7 @@ public class ConveyorNegativeTest {
         // Negative case null variables
         try {
             List<IntersectionPoint> crossingIndices = Arrays.asList(new IntersectionPoint(2, 2), null);
-            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
@@ -120,7 +115,7 @@ public class ConveyorNegativeTest {
         // Negative case negative intersection values
         try {
             List<IntersectionPoint> crossingIndices = Arrays.asList(new IntersectionPoint(-2, 2), null);
-            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }
@@ -131,7 +126,7 @@ public class ConveyorNegativeTest {
         // Negative case negative intersection values
         try {
             List<IntersectionPoint> crossingIndices = Arrays.asList(new IntersectionPoint(2, -2), null);
-            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST));
+            new FactoryService(new FactoryConfig(crossingIndices, 5, 5, ConveyorType.LINKED_LIST, false));
         } catch (IllegalArgumentException exception) {
             exceptionIsThrown = true;
         }

@@ -7,6 +7,13 @@ public class NewConveyorValueDto {
     @PrimeNumberConstraint
     private Integer value;
 
+    public NewConveyorValueDto() {
+    }
+
+    public NewConveyorValueDto(Integer value) {
+        this.value = value;
+    }
+
     public Integer getValue() {
         return value;
     }

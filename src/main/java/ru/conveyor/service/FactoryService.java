@@ -22,8 +22,6 @@ public final class FactoryService {
     private final Conveyor conveyorA;
     private final Conveyor conveyorB;
 
-    private List<Integer> primeNumbers;
-
     @Autowired
     public FactoryService(FactoryConfig config) {
         this.config = config;
@@ -49,14 +47,21 @@ public final class FactoryService {
                 this.conveyorA = new ThreadSafeConveyor(config.getConveyorALength());
                 this.conveyorB = new ThreadSafeConveyor(config.getConveyorBLength());
                 break;
-            default: throw new IllegalArgumentException("Unknown conveyor type");
+            default:
+                throw new IllegalArgumentException("Unknown conveyor type");
         }
-    }
 
-    public void startFactory() {
-        primeNumbers = PrimeNumberUtils.generatePrimeNumber();
-        fillConveyor(conveyorA);
-        fillConveyor(conveyorB);
+        if (config.isPrefillConveyors()) {
+            List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
+
+            for (int i = 0; i <  conveyorA.getStatus().size(); i++) {
+                conveyorA.pushValue(primes.get((int) (Math.random() * 100)));
+            }
+
+            for (int i = 0; i < conveyorB.getStatus().size(); i++) {
+                conveyorB.pushValue(primes.get((int) (Math.random() * 100)));
+            }
+        }
     }
 
     //todo: метод должен реализовать следующее (согласно требованиям)
@@ -100,23 +105,6 @@ public final class FactoryService {
         conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
 
         return numForReturn;
-    }
-
-    // todo: это надо в тесты унести
-    private void fillConveyor(Conveyor conveyor) {
-        for (int i = 0; i < conveyor.getStatus().size(); i++) {
-            //todo: ниже бесполезный коммент там и так понятно что получается рандомное число от 1 до 100
-            // коммент нужен не что там, а зачем это там и какую нагрузку несёт.
-            // Например, "Getting random prime number from pre-filled collection size of 100'
-            // названия переменных меньше чем из 3 букв не принимаются по всем конвенциям
-
-            // случайное число от 1 до 100
-            int randomNumber = (int) (Math.random() * 100);
-            //int rnd = Primes.nextPrime(1);
-
-            //todo: доступ к филдам должны идти через геттеры
-            conveyor.pushValue(primeNumbers.get(randomNumber));
-        }
     }
 
 }

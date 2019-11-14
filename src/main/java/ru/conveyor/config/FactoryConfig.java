@@ -19,6 +19,8 @@ public class FactoryConfig {
 
     private ConveyorType conveyorType;
 
+    private boolean prefillConveyors;
+
     @Autowired
     public FactoryConfig(
         @Value(value = "#{T(ru.conveyor.util.PropertiesParser).parseIntersectionPoints('${intersections}')}")
@@ -28,7 +30,9 @@ public class FactoryConfig {
         @Value(value = "${conveyors.b.length}")
             int conveyorBLength,
         @Value(value = "${conveyors.type}")
-            ConveyorType conveyorType) throws IllegalArgumentException {
+            ConveyorType conveyorType,
+        @Value(value = "${conveyors.prefill}")
+            boolean prefillConveyors) throws IllegalArgumentException {
 
         validateParameters(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
 
@@ -36,6 +40,7 @@ public class FactoryConfig {
         this.conveyorALength = conveyorALength;
         this.conveyorBLength = conveyorBLength;
         this.conveyorType = conveyorType;
+        this.prefillConveyors = prefillConveyors;
     }
 
     public FactoryConfig() throws Exception {
@@ -90,5 +95,9 @@ public class FactoryConfig {
                 throw new IllegalArgumentException("Invalid parameters");
             }
         }
+    }
+
+    public boolean isPrefillConveyors() {
+        return prefillConveyors;
     }
 }

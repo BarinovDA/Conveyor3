@@ -49,14 +49,9 @@ public class ConveyorPerformanceTest {
             crossingIndices.add(new IntersectionPoint(i, i - 5));
         }
 
-        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType) ;
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType, false) ;
 
-        FactoryService factoryManager = new FactoryService(factoryConfig);
-
-        // Start factory
-        factoryManager.startFactory();
-
-        return factoryManager;
+        return new FactoryService(factoryConfig);
     }
 
     private void startFactoryLoad(FactoryService factoryManager) {

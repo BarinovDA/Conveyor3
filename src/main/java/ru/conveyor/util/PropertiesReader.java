@@ -4,12 +4,9 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
 import ru.conveyor.data.IntersectionPoint;
-import sun.misc.Unsafe;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -40,6 +37,6 @@ public class PropertiesReader {
             intersectionPoints.add(new IntersectionPoint(indexA, indexB));
         }
 
-        return new FactoryConfig(intersectionPoints, conveyorALength, conveyorBLength, conveyorType);
+        return new FactoryConfig(intersectionPoints, conveyorALength, conveyorBLength, conveyorType, true);
     }
 }
