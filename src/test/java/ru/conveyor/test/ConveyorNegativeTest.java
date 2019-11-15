@@ -2,8 +2,8 @@ package ru.conveyor.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.service.FactoryService;
 

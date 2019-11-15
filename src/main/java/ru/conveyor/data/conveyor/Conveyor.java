@@ -1,4 +1,4 @@
-package ru.conveyor.data;
+package ru.conveyor.data.conveyor;
 
 import java.util.List;
 

@@ -1,18 +1,16 @@
-package ru.conveyor.data;
+package ru.conveyor.data.conveyor.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PrimitiveArrayConveyor implements Conveyor {
+public class PrimitiveArrayConveyor extends AbstractConveyor {
 
     private int[] queue;
-    private List<Integer> intersectionIndices;
 
-    public PrimitiveArrayConveyor(int length, List<Integer> intersectionIndices) {
+    public PrimitiveArrayConveyor() {
         this.queue = new int[length];
-        this.intersectionIndices = new ArrayList<>(intersectionIndices);
     }
 
     @Override

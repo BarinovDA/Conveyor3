@@ -1,8 +1,8 @@
 package ru.conveyor.util;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.util.ArrayList;

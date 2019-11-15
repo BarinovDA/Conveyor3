@@ -1,24 +1,16 @@
-package ru.conveyor.data;
-
-import org.apache.commons.collections4.list.TreeList;
+package ru.conveyor.data.conveyor.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ApacheTreeListConveyor implements Conveyor {
+public class ArrayListConveyor extends AbstractConveyor {
 
-    private TreeList<Integer> queue;
-    private List<Integer> intersectionIndices;
+    private List<Integer> queue;
 
-    public ApacheTreeListConveyor(int length, List<Integer> intersectionIndices) {
-        this.queue = new TreeList<>();
-        this.intersectionIndices = new ArrayList<>(intersectionIndices);
-
-        // pre-fill with zeroes
-        for (int i = 0; i < length; i++) {
-            queue.add(0);
-        }
+    public ArrayListConveyor() {
+        this.queue = new ArrayList<>(length);
+        fillConveyorWithZeroes(queue);
     }
 
     @Override

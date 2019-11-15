@@ -1,4 +1,4 @@
-package ru.conveyor.data;
+package ru.conveyor.data.conveyor.impl;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import java.util.List;
 // todo: здесь будет потокобезопасная реализация конвеера,
 //  одновременные вызовы pushA/pushB/getStatusA/getStatusB методов должны быть потокобезопасные
 //  делать в конце
-public class ThreadSafeConveyor implements Conveyor {
+public class ThreadSafeConveyor extends AbstractConveyor {
 
-    public ThreadSafeConveyor(int convlength) {
+    public ThreadSafeConveyor() {
 
     }
 

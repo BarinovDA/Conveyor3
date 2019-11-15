@@ -1,27 +1,17 @@
-package ru.conveyor.data;
+package ru.conveyor.data.conveyor.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-//todo: тут надо подумать как всё это спрятать (перенести conveyor на package-default уровень),
-// public доступ не подходит.
-// конвеер это внутренняя кухня для FactoryManager доступа извне быть не должно
-
-public class LinkedListConveyor implements Conveyor {
+public class LinkedListConveyor extends AbstractConveyor {
 
     private LinkedList<Integer> queue;
-    private List<Integer> intersectionIndices;
 
-    public LinkedListConveyor(int length, List<Integer> intersectionIndices) {
+    public LinkedListConveyor() {
         this.queue = new LinkedList<>();
-        this.intersectionIndices = new ArrayList<>(intersectionIndices);
-
-        // pre-fill with zeroes
-        for (int i = 0; i < length; i++) {
-            queue.add(0);
-        }
+        fillConveyorWithZeroes(queue);
     }
 
     @Override

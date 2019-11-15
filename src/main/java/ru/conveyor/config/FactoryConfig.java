@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
+import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.util.PropertiesReader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration

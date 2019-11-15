@@ -4,12 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.conveyor.api.dto.FactoryStatusDto;
 import ru.conveyor.config.FactoryConfig;
-import ru.conveyor.data.ApacheTreeListConveyor;
-import ru.conveyor.data.ArrayListConveyor;
-import ru.conveyor.data.Conveyor;
-import ru.conveyor.data.LinkedListConveyor;
-import ru.conveyor.data.PrimitiveArrayConveyor;
-import ru.conveyor.data.ThreadSafeConveyor;
+import ru.conveyor.data.ConveyorStrategy;
+import ru.conveyor.data.conveyor.Conveyor;
 import ru.conveyor.util.PrimeNumberUtils;
 
 import java.util.Collections;
@@ -28,52 +24,14 @@ public final class FactoryService {
     public FactoryService(FactoryConfig config) {
         this.config = config;
 
-        switch (config.getConveyorType()) {
-            case LINKED_LIST:
-                this.conveyorA = new LinkedListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new LinkedListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
-                break;
-            case ARRAY_LIST:
-                this.conveyorA = new ArrayListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new ArrayListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
-                break;
-            case APACHE_TREE_LIST:
-                this.conveyorA = new ApacheTreeListConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new ApacheTreeListConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
-                break;
-            case PRIMITIVE_ARRAY:
-                this.conveyorA = new PrimitiveArrayConveyor(config.getConveyorALength(), config.getIntersectionIndicesForA());
-                this.conveyorB = new PrimitiveArrayConveyor(config.getConveyorBLength(), config.getIntersectionIndicesForB());
-                break;
-            case THREAD_SAFE:
-                this.conveyorA = new ThreadSafeConveyor(config.getConveyorALength());
-                this.conveyorB = new ThreadSafeConveyor(config.getConveyorBLength());
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown conveyor type");
-        }
+        conveyorA = ConveyorStrategy.getConveyorStrategy(config.getConveyorType(), config.getConveyorALength(), config.getIntersectionIndicesForA());
+        conveyorB = ConveyorStrategy.getConveyorStrategy(config.getConveyorType(), config.getConveyorBLength(), config.getIntersectionIndicesForB());
 
         if (config.isPrefillConveyors()) {
-            List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
-
-            // случайное число от 1 до 100
-            Random r = new Random();
-            int low = 1;
-            int high = 100;
-
-            for (int i = 0; i < conveyorA.getStatus().size(); i++) {
-                conveyorA.pushValue(primes.get(r.nextInt(high - low) + low));
-            }
-
-            for (int i = 0; i < conveyorB.getStatus().size(); i++) {
-                conveyorB.pushValue(primes.get(r.nextInt(high - low) + low));
-            }
+            prefillConveyors();
         }
     }
 
-    //todo: метод должен реализовать следующее (согласно требованиям)
-    // 3.Получение состояния всей системы: очередей, точек пересечения.
-    //
     public FactoryStatusDto getFactoryStatus() {
         return new FactoryStatusDto(config, conveyorA.getStatus(), conveyorB.getStatus());
     }
@@ -98,6 +56,22 @@ public final class FactoryService {
 
     public FactoryConfig getConfig() {
         return config;
+    }
+
+    private void prefillConveyors() {
+        List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
+
+        Random r = new Random();
+        int low = 1;
+        int high = 200;
+
+        for (int i = 0; i < conveyorA.getStatus().size(); i++) {
+            conveyorA.pushValue(primes.get(r.nextInt(high - low) + low));
+        }
+
+        for (int i = 0; i < conveyorB.getStatus().size(); i++) {
+            conveyorB.pushValue(primes.get(r.nextInt(high - low) + low));
+        }
     }
 
     private void validateConveyorInput(int value) {

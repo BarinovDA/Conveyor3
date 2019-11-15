@@ -4,8 +4,8 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 import ru.conveyor.service.FactoryService;
 

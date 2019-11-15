@@ -4,8 +4,8 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.conveyor.config.ConveyorType;
 import ru.conveyor.config.FactoryConfig;
+import ru.conveyor.data.ConveyorType;
 import ru.conveyor.data.IntersectionPoint;
 
 import java.util.ArrayList;
