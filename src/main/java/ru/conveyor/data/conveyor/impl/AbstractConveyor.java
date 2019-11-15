@@ -2,7 +2,6 @@ package ru.conveyor.data.conveyor.impl;
 
 import ru.conveyor.data.conveyor.Conveyor;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,12 +14,6 @@ public abstract class AbstractConveyor implements Conveyor {
     protected int length;
 
     public AbstractConveyor() {
-    }
-
-    protected void fillConveyorWithZeroes(Collection<Integer> collection) {
-        for (int i = 0; i < length; i++) {
-            collection.add(0);
-        }
     }
 
     public List<Integer> getIntersectionIndices() {
@@ -38,4 +31,6 @@ public abstract class AbstractConveyor implements Conveyor {
     public void setLength(int length) {
         this.length = length;
     }
+
+    public abstract void fillConveyorWithZeroes();
 }

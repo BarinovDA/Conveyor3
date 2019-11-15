@@ -5,11 +5,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class ThreadSafeConveyor extends AbstractConveyor {
-    private final Object lock = new Object();
+
     private List<Integer> queue;
+
+    private final Object lock = new Object();
 
     public ThreadSafeConveyor() {
         this.queue = Collections.synchronizedList(new ArrayList<>(length));
+    }
+
+    @Override
+    public void fillConveyorWithZeroes() {
+        for (int i = 0; i < length; i++) {
+            queue.add(0);
+        }
     }
 
     @Override
@@ -33,20 +42,21 @@ public class ThreadSafeConveyor extends AbstractConveyor {
 
     @Override
     public void updateIntersectionPoints(List<Integer> values) {
-        synchronized (lock) {
-            if (values.size() != intersectionIndices.size()) {
-                throw new IllegalArgumentException("Incoming values size should match config");
-            }
+        if (values.size() != intersectionIndices.size()) {
+            throw new IllegalArgumentException("Incoming values size should match config");
+        }
 
+        synchronized (lock) {
             for (int i = 0; i < intersectionIndices.size(); i++) {
                 queue.set(intersectionIndices.get(i), values.get(i));
             }
         }
     }
 
-    //todo: реализовать
     @Override
     public List<Integer> getStatus() {
-        return Collections.unmodifiableList(queue);
+        synchronized (lock) {
+            return Collections.unmodifiableList(queue);
+        }
     }
 }

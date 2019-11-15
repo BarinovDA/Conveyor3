@@ -11,7 +11,13 @@ public class LinkedListConveyor extends AbstractConveyor {
 
     public LinkedListConveyor() {
         this.queue = new LinkedList<>();
-        fillConveyorWithZeroes(queue);
+    }
+
+    @Override
+    public void fillConveyorWithZeroes() {
+        for (int i = 0; i < length; i++) {
+            queue.add(0);
+        }
     }
 
     @Override

@@ -18,6 +18,7 @@ public class PrimeNumberUtils {
         for (int i = 1; i <= 200; i += 1) {
             lastPrime = Primes.nextPrime(lastPrime);
             list.add(lastPrime);
+            lastPrime++;
         }
 
         return list;

@@ -10,7 +10,13 @@ public class ArrayListConveyor extends AbstractConveyor {
 
     public ArrayListConveyor() {
         this.queue = new ArrayList<>(length);
-        fillConveyorWithZeroes(queue);
+    }
+
+    @Override
+    public void fillConveyorWithZeroes() {
+        for (int i = 0; i < length; i++) {
+            queue.add(0);
+        }
     }
 
     @Override

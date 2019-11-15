@@ -12,6 +12,7 @@ public class ConveyorStrategy {
 
         abstractConveyor.setLength(length);
         abstractConveyor.setIntersectionIndices(intersectionIndices);
+        abstractConveyor.fillConveyorWithZeroes();
 
         return abstractConveyor;
     }

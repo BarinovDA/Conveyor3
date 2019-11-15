@@ -10,6 +10,10 @@ public class PrimitiveArrayConveyor extends AbstractConveyor {
     private int[] queue;
 
     public PrimitiveArrayConveyor() {
+    }
+
+    @Override
+    public void fillConveyorWithZeroes() {
         this.queue = new int[length];
     }
 
