@@ -89,11 +89,12 @@ public class ConveyorNegativeTest {
         Assertions.assertTrue(exceptionIsThrown);
         exceptionIsThrown = false;
 
+        //todo: обрати внимание! строка 97
 
         // Negative case null variables
         try {
             new FactoryService(new FactoryConfig(Arrays.asList(null), 5, 5, ConveyorType.LINKED_LIST, false));
-        } catch (IllegalArgumentException exception) {
+        } catch (NullPointerException exception) {
             exceptionIsThrown = true;
         }
 

@@ -33,7 +33,6 @@ public class LinkedListConveyor implements Conveyor {
         return queue.removeLast();
     }
 
-
     @Override
     public List<Integer> getIntersectionValues() {
         List<Integer> result = new ArrayList<>();
