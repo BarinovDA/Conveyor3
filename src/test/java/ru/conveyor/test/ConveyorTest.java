@@ -2,6 +2,7 @@ package ru.conveyor.test;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import ru.conveyor.config.FactoryConfig;
@@ -11,6 +12,9 @@ import ru.conveyor.service.FactoryService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class ConveyorTest {
 
@@ -18,6 +22,7 @@ public class ConveyorTest {
     @EnumSource(ConveyorType.class)
     public void conveyorTest(ConveyorType conveyorType) {
         if (conveyorType == ConveyorType.THREAD_SAFE) {
+            startThreadSafeConveyorTest();
             return; // todo: not implemented yet
         }
 
@@ -70,6 +75,34 @@ public class ConveyorTest {
             int valueB = factoryManager.getStatusConveyorB().get(point.getIndexB());
 
             MatcherAssert.assertThat(valueA, CoreMatchers.is(valueB));
+        }
+    }
+
+    @Test
+    public void startThreadSafeConveyorTest(){
+        // Prepare factory manager
+        List<IntersectionPoint> crossingIndices = new LinkedList<>();
+        crossingIndices.add(new IntersectionPoint(3, 4));
+        crossingIndices.add(new IntersectionPoint(6, 8));
+
+        FactoryConfig factoryThreadConfig = new FactoryConfig(crossingIndices, 9, 15,
+                ConveyorType.THREAD_SAFE, true);
+
+        FactoryService factoryThreadManager = new FactoryService(factoryThreadConfig);
+
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        service.submit(new MyRunnable());
+
+
+
+        service.shutdown();
+    }
+
+    public class MyRunnable implements Runnable{
+        @Override
+        public void run() {
+                ConveyorTest.factoryThreadManager.pushA(1);
+                ConveyorTest.factoryThreadManager.pushB(2);
         }
     }
 }
