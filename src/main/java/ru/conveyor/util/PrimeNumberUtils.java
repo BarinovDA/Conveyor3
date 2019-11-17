@@ -8,9 +8,9 @@ import java.util.List;
 public class PrimeNumberUtils {
 
     /**
-     * Return List of a few hundred prime numbers
-     * */
-    public static List<Integer> generatePrimeNumber() {
+     * Returns few hundred prime numbers
+     */
+    public static List<Integer> generatePrimeNumbers() {
         List<Integer> list = new ArrayList<>();
 
         int lastPrime = 1;
@@ -24,8 +24,11 @@ public class PrimeNumberUtils {
         return list;
     }
 
+    /**
+     * Primality test
+     */
     public static boolean isPrime(int number) {
-       return Primes.isPrime(number);
+        return Primes.isPrime(number);
     }
 
 }

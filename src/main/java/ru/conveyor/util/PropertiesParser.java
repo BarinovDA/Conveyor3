@@ -8,9 +8,12 @@ import java.util.stream.Collectors;
 
 public class PropertiesParser {
 
-    public static final String SEMICOLON = ";";
-    public static final String COMMA = ",";
+    private static final String SEMICOLON = ";";
+    private static final String COMMA = ",";
 
+    /**
+     * Parses intersection points property
+     */
     public static List<IntersectionPoint> parseIntersectionPoints(String property) {
         return Arrays.stream(property.split(SEMICOLON))
             .map(point -> point.split(COMMA))

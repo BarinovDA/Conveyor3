@@ -1,62 +1,35 @@
 package ru.conveyor.data.conveyor.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ThreadSafeConveyor extends AbstractConveyor {
 
     private List<Integer> queue;
 
-    private final Object lock = new Object();
-
-    public ThreadSafeConveyor() {
-        this.queue = Collections.synchronizedList(new ArrayList<>(length));
+    @Override
+    public void init() {
+        this.queue = new CopyOnWriteArrayList<>();
+        fillConveyorWithZeroes(queue);
     }
 
     @Override
-    public void fillConveyorWithZeroes() {
-        for (int i = 0; i < length; i++) {
-            queue.add(0);
-        }
+    public synchronized int pushValue(int value) {
+        return pushValue(queue, value);
     }
 
     @Override
-    public int pushValue(int value) {
-        synchronized (lock) {
-            queue.add(0, value);
-            return queue.remove(queue.size() - 1);
-        }
+    public synchronized List<Integer> getIntersectionValues() {
+        return getIntersectionValues(queue);
     }
 
     @Override
-    public List<Integer> getIntersectionValues() {
-        List<Integer> result = new ArrayList<>();
-
-        for (Integer intersectionIndex : intersectionIndices) {
-            result.add(queue.get(intersectionIndex));
-        }
-
-        return result;
+    public synchronized void updateIntersectionValues(List<Integer> values) {
+        updateIntersectionPoints(queue, values);
     }
 
     @Override
-    public void updateIntersectionPoints(List<Integer> values) {
-        if (values.size() != intersectionIndices.size()) {
-            throw new IllegalArgumentException("Incoming values size should match config");
-        }
-
-        synchronized (lock) {
-            for (int i = 0; i < intersectionIndices.size(); i++) {
-                queue.set(intersectionIndices.get(i), values.get(i));
-            }
-        }
-    }
-
-    @Override
-    public List<Integer> getStatus() {
-        synchronized (lock) {
-            return Collections.unmodifiableList(queue);
-        }
+    public synchronized List<Integer> getStatus() {
+        return getStatus(queue);
     }
 }

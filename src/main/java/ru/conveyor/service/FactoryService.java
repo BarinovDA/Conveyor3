@@ -8,7 +8,6 @@ import ru.conveyor.data.ConveyorStrategy;
 import ru.conveyor.data.conveyor.Conveyor;
 import ru.conveyor.util.PrimeNumberUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -32,45 +31,64 @@ public final class FactoryService {
         }
     }
 
+    /**
+     * Returns Config (properties) and both conveyors values
+     */
     public FactoryStatusDto getFactoryStatus() {
         return new FactoryStatusDto(config, conveyorA.getStatus(), conveyorB.getStatus());
     }
 
+    /**
+     * Pushes value to Conveyor A
+     */
     public int pushA(int value) throws IllegalArgumentException {
         validateConveyorInput(value);
         return pushConveyor(value, conveyorA, conveyorB);
     }
 
+    /**
+     * Pushes value to Conveyor B
+     */
     public int pushB(int value) throws IllegalArgumentException {
         validateConveyorInput(value);
         return pushConveyor(value, conveyorB, conveyorA);
     }
 
+
+    /**
+     * Returns Conveyor A values
+     */
     public List<Integer> getStatusConveyorA() {
-        return Collections.unmodifiableList(conveyorA.getStatus());
+        return conveyorA.getStatus();
     }
 
+    /**
+     * Returns Conveyor B values
+     */
     public List<Integer> getStatusConveyorB() {
-        return Collections.unmodifiableList(conveyorB.getStatus());
+        return conveyorB.getStatus();
     }
 
     public FactoryConfig getConfig() {
         return config;
     }
 
+    /**
+     * Pre-populates conveyors with some random prime numbers
+     */
     private void prefillConveyors() {
-        List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
+        List<Integer> primes = PrimeNumberUtils.generatePrimeNumbers();
 
-        Random r = new Random();
+        Random random = new Random();
         int low = 1;
         int high = 200;
 
         for (int i = 0; i < conveyorA.getStatus().size(); i++) {
-            conveyorA.pushValue(primes.get(r.nextInt(high - low) + low));
+            conveyorA.pushValue(primes.get(random.nextInt(high - low) + low));
         }
 
         for (int i = 0; i < conveyorB.getStatus().size(); i++) {
-            conveyorB.pushValue(primes.get(r.nextInt(high - low) + low));
+            conveyorB.pushValue(primes.get(random.nextInt(high - low) + low));
         }
     }
 
@@ -80,12 +98,12 @@ public final class FactoryService {
         }
     }
 
-    private int pushConveyor(int num, Conveyor conveyorToPush, Conveyor conveyorToUpdate) {
-        int numForReturn = conveyorToPush.pushValue(num);
+    private int pushConveyor(int value, Conveyor conveyorToPush, Conveyor conveyorToUpdate) {
+        int valueToReturn = conveyorToPush.pushValue(value);
 
-        conveyorToUpdate.updateIntersectionPoints(conveyorToPush.getIntersectionValues());
+        conveyorToUpdate.updateIntersectionValues(conveyorToPush.getIntersectionValues());
 
-        return numForReturn;
+        return valueToReturn;
     }
 
 }

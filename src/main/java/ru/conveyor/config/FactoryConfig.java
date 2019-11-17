@@ -104,7 +104,15 @@ public class FactoryConfig {
 
     private void validateParameters(List<IntersectionPoint> listOfIntersection, int lenA, int lenB, ConveyorType conveyorType) {
         if (lenA <= 0 || lenB <= 0) {
-            throw new IllegalArgumentException("Negative length of conveyor. LenA:" + lenA + ". Len B:" + lenB);
+            throw new IllegalArgumentException("Invalid conveyor length. LenA:" + lenA + ". LenB:" + lenB);
+        }
+
+        if (listOfIntersection == null) {
+            throw new IllegalArgumentException("IntersectionPoints cannot be null (can be empty though)");
+        }
+
+        if (conveyorType == null) {
+            throw new IllegalArgumentException("ConveyorType cannot be null");
         }
 
         for (IntersectionPoint point : listOfIntersection) {
@@ -114,8 +122,8 @@ public class FactoryConfig {
 
             if (point.getIndexA() > lenA ||
                 point.getIndexB() > lenB ||
-                point.getIndexA() < 0 ||
-                point.getIndexB() < 0) {
+                point.getIndexA() <= 0 ||
+                point.getIndexB() <= 0) {
                 throw new IllegalArgumentException("Invalid IntersectionPoint: " + point);
             }
         }

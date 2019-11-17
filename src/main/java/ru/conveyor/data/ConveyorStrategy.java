@@ -8,11 +8,11 @@ import java.util.List;
 public class ConveyorStrategy {
 
     public static Conveyor getConveyorStrategy(ConveyorType conveyorType, int length, List<Integer> intersectionIndices) {
-        AbstractConveyor abstractConveyor =  conveyorType.newStrategy();
+        AbstractConveyor abstractConveyor = conveyorType.newStrategy();
 
         abstractConveyor.setLength(length);
         abstractConveyor.setIntersectionIndices(intersectionIndices);
-        abstractConveyor.fillConveyorWithZeroes();
+        abstractConveyor.init();
 
         return abstractConveyor;
     }

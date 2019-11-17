@@ -12,6 +12,9 @@ public class FactoryStatusDto {
     private List<Integer> conveyorA;
     private List<Integer> conveyorB;
 
+    public FactoryStatusDto() {
+    }
+
     public FactoryStatusDto(FactoryConfig config, List<Integer> statusA, List<Integer> statusB) {
         this.intersectionPoints = config.getIntersectionPoints();
         this.conveyorA = statusA;

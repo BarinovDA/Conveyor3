@@ -2,8 +2,6 @@ package ru.conveyor.data.conveyor;
 
 import java.util.List;
 
-//todo: интерфейс для конвееров все 3 реализации (2 обычные + 1 потокобезопасная) должны реализовывать этот интерфейс
-// во внешнем коде (из FactoryManager) работать с конвеерами только через интерфейс
 public interface Conveyor {
 
     /**
@@ -28,7 +26,7 @@ public interface Conveyor {
      * @param values - values to update
      * @return - value to be returned (removed last)
      */
-    void updateIntersectionPoints(List<Integer> values);
+    void updateIntersectionValues(List<Integer> values);
 
     /**
      * Returns current conveyor status (numbers within)

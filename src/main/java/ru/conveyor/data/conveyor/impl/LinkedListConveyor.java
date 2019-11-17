@@ -1,7 +1,5 @@
 package ru.conveyor.data.conveyor.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class LinkedListConveyor extends AbstractConveyor {
     }
 
     @Override
-    public void fillConveyorWithZeroes() {
+    public void init() {
         for (int i = 0; i < length; i++) {
             queue.add(0);
         }
@@ -22,38 +20,23 @@ public class LinkedListConveyor extends AbstractConveyor {
 
     @Override
     public int pushValue(int value) {
-        // add to head
         queue.addFirst(value);
-
-        // delete and return tail
         return queue.removeLast();
     }
 
     @Override
     public List<Integer> getIntersectionValues() {
-        List<Integer> result = new ArrayList<>();
-
-        for (Integer intersectionIndex : intersectionIndices) {
-            result.add(queue.get(intersectionIndex));
-        }
-
-        return result;
+        return getIntersectionValues(queue);
     }
 
     @Override
-    public void updateIntersectionPoints(List<Integer> values) {
-        if (values.size() != intersectionIndices.size()) {
-            throw new IllegalArgumentException("Incoming values size should match config");
-        }
-
-        for (int i = 0; i < intersectionIndices.size(); i++) {
-            queue.set(intersectionIndices.get(i), values.get(i));
-        }
+    public void updateIntersectionValues(List<Integer> values) {
+        updateIntersectionPoints(queue, values);
     }
 
     @Override
     public List<Integer> getStatus() {
-        return Collections.unmodifiableList(queue);
+        return getStatus(queue);
     }
 
 }

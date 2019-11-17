@@ -10,7 +10,6 @@ public class IntersectionPoint {
             this.indexA = indexA;
             this.indexB = indexB;
         } else {
-            //поменять на IllegalArgumentException
             throw new IllegalArgumentException("You can make only positive intersection point");
         }
     }

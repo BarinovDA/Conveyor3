@@ -1,6 +1,5 @@
 package ru.conveyor.data.conveyor.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,11 +8,8 @@ public class PrimitiveArrayConveyor extends AbstractConveyor {
 
     private int[] queue;
 
-    public PrimitiveArrayConveyor() {
-    }
-
     @Override
-    public void fillConveyorWithZeroes() {
+    public void init() {
         this.queue = new int[length];
     }
 
@@ -32,17 +28,13 @@ public class PrimitiveArrayConveyor extends AbstractConveyor {
 
     @Override
     public List<Integer> getIntersectionValues() {
-        List<Integer> result = new ArrayList<>();
-
-        for (Integer intersectionIndex : intersectionIndices) {
-            result.add(queue[intersectionIndex]);
-        }
-
-        return result;
+        return intersectionIndices.stream()
+            .map(intersectionIndex -> queue[intersectionIndex])
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    public void updateIntersectionPoints(List<Integer> values) {
+    public void updateIntersectionValues(List<Integer> values) {
         if (values.size() != intersectionIndices.size()) {
             throw new IllegalArgumentException("Incoming values size should match config");
         }
@@ -54,6 +46,8 @@ public class PrimitiveArrayConveyor extends AbstractConveyor {
 
     @Override
     public List<Integer> getStatus() {
-        return Arrays.stream(queue).boxed().collect(Collectors.toUnmodifiableList());
+        return Arrays.stream(queue)
+            .boxed()
+            .collect(Collectors.toUnmodifiableList());
     }
 }

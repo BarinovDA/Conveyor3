@@ -35,9 +35,6 @@ public class ConveyorPerformanceTest {
 
     @Benchmark
     public void conveyorPerformanceTest() {
-        if (conveyorType == ConveyorType.THREAD_SAFE) {
-            return; // todo: not implemented yet
-        }
         FactoryService factoryManager = prepareFactory(conveyorType);
         startFactoryLoad(factoryManager);
     }
@@ -49,13 +46,13 @@ public class ConveyorPerformanceTest {
             crossingIndices.add(new IntersectionPoint(i, i - 5));
         }
 
-        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType, false) ;
+        FactoryConfig factoryConfig = new FactoryConfig(crossingIndices, CONVEYORS_LENGTHS, 1000, conveyorType, false);
 
         return new FactoryService(factoryConfig);
     }
 
     private void startFactoryLoad(FactoryService factoryManager) {
-        List<Integer> primes = PrimeNumberUtils.generatePrimeNumber();
+        List<Integer> primes = PrimeNumberUtils.generatePrimeNumbers();
 
         Random random = new Random();
 
